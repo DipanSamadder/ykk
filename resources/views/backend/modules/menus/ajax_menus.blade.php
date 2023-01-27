@@ -39,11 +39,12 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ $value->url }}" target="_blank">{{ $value->name }}</a><br>
-                        <small>{{ $value->url }}</small>
+                        {{ $value->name }}<br>
+                        <small>{{ $value->url }}</a></small>
                     </td>
-                    <td><small>{{ $value->level }}</small></td>
-                    <td><small>{{ $value->parent }}</small></td>
+                    <td><small>@if($value->type != '')<a href="{{ route('menus.ordering', [$value->type]) }}" target="_blank">{{ $value->type }}</a></small> @else -- @endif</td>
+                    @php $par = App\Models\Menu::where('id', $value->parent)->first(); @endphp
+                    <td><small>@if($par != '') <strong>{{ $par->name }} @endif </strong><br>Level: {{ $value->level }}</small></td>
                     <td><small>{{ $value->setting }}</small></td>
                     <td><small>U: {{ date('h:i:s d M, Y', strtotime($value->updated_at)) }}<br>C: {{ date('h:i:s d M, Y', strtotime($value->created_at)) }}</small></td>
                     <td>

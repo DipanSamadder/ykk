@@ -1,3 +1,14 @@
+$(function () {
+    $('.dd').nestable();
+
+    $('.dd').on('change', function () {
+        is_edited();
+        var $this = $(this);
+        var serializedData = window.JSON.stringify($($this).nestable('serialize'));
+        $('.menu_ordering_value').val(serializedData);
+    });
+});
+
 function showConfirmMessage() {
     swal({
         title: "Are you sure?",

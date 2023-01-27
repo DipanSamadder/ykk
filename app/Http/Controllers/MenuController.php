@@ -78,11 +78,74 @@ class MenuController extends Controller
         return view('backend.modules.menus.edit', compact('data', 'page'));
     }
     public function menus_ordering($type){
-        $data = Menu::where('type', $type)->first();
+        $data = Menu::where('type', $type)->where('status', 0)->orderBy('order', 'asc')->get();
         $page['title'] = 'Edit Type';
-        return view('backend.modules.menus.ordering', compact('data', 'page'));
+        return view('backend.modules.menus.ordering', compact('data', 'page', 'type'));
     }
-    
+    public function menus_ordering_update(Request $request){
+
+
+        
+  
+        $get_menu = array();
+        foreach(json_decode($request->menu_ordering_value, true) as $key => $level1){
+
+            $level1_data = array('id'=> $level1['id'], 'level'=> 1, 'parent' => 0, 'order' => ($key+1)*10);
+            array_push($get_menu, $level1_data);
+
+            if(isset($level1['children']) && is_array($level1['children'])){
+
+                foreach($level1['children'] as $key2 => $level2){
+
+                    $level2_data = array('id'=> $level2['id'], 'level'=> 2, 'parent' => $level1['id'], 'order' => ($key2+1)*10);
+                    array_push($get_menu, $level2_data);
+                 
+                    if(isset($level2['children']) && is_array($level2['children'])){
+
+                        foreach($level2['children'] as $key3 => $level3){
+                          
+                            $level3_data = array('id'=> $level3['id'], 'level'=> 3, 'parent' => $level2['id'], 'order' => ($key3+1)*10);
+                            array_push($get_menu, $level3_data);
+
+                            if(isset($level3['children']) && is_array($level3['children'])){
+                                
+                                foreach($level3['children'] as $key4 => $level4){
+
+                                    $level4_data = array('id'=> $level4['id'], 'level'=> 4, 'parent' => $level3['id'], 'order' => ($key4+1)*10);
+                                    array_push($get_menu, $level4_data);
+
+                                    if(isset($level4['children']) && is_array($level4['children'])){
+                                        foreach($level4['children'] as $key5 => $level5){
+
+                                            $level5_data = array('id'=> $level5['id'], 'level'=> 5, 'parent' => $level4['id'], 'order' => ($key5+1)*10);
+                                            array_push($get_menu, $level5_data);
+
+                                        }
+                                    }
+
+                                }
+                            }
+
+                        }
+
+                       
+                    }
+                    
+                }
+
+            }
+           
+        }
+        foreach($get_menu as $key => $value){
+            $menu =  Menu::where('type', $request->type)->where('id', $value['id'])->first();
+            $menu->level = $value['level'];
+            $menu->parent = $value['parent'];
+            $menu->order = $value['order'];
+            $menu->save();
+        }
+        return response()->json(['status' => 'success', 'message' => 'Data update success.']);
+
+    }
     public function update(Request $request){
 
         $validator = Validator::make($request->all(), [
