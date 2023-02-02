@@ -213,8 +213,9 @@
         <li><a href="javascript:void(0);" class="app_google_drive" title="Google Drive"><i class="zmdi zmdi-google-drive"></i></a></li>
         <li><a href="javascript:void(0);" class="app_group_work" title="Group Work"><i class="zmdi zmdi-group-work"></i></a></li>
         <li><a href="javascript:void(0);" class="js-right-sidebar" title="Setting"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a></li> -->
+        <li><a href="{{ route('home') }}" target="_blank" title="Add Media"><i class="zmdi zmdi-hc-fw"></i></a></li>
         <li><a href="javascript:void(0);" data-toggle="modal" data-target="#DSLDImageUpload" title="Add Media"><i class="zmdi zmdi-camera"></i></a></li>
-        
+        <li><a href="javascript:void(0);" title="Clear Cache" onclick="clear_cache()"><i class="zmdi zmdi-hc-fw"></i></a></li>
         <li>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -258,14 +259,21 @@
             </li>
             <li class="{{ dsld_is_route_active(['backend.admin'], 'active open') }}"><a href="{{ route('backend.admin') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
             <li class="{{ dsld_is_route_active(['media.library.admin'], 'active open') }}"><a href="{{ route('media.library.admin') }}"><i class="zmdi zmdi-folder"></i><span>Media</span></a></li>
-            <li class="{{ dsld_is_route_active(['pages.index', 'pages.edit', 'pages.store'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-assignment"></i><span>Pages</span></a>
+            <li class="{{ dsld_is_route_active(['pages.index', 'pages.edit', 'pages.store', 'pages_section.index',   'pages_section_fields.edit'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-assignment"></i><span>Pages</span></a>
                 <ul class="ml-menu">
                     <li class="{{ dsld_is_route_active(['pages.index', 'pages.edit']) }}"><a href="{{ route('pages.index') }}">All Pages</a></li>
+                    <li class="{{ dsld_is_route_active(['pages_section.index',   'pages_section_fields.edit']) }}"><a href="{{ route('pages_section.index') }}">All Sections</a></li>
                 </ul>
             </li> 
             <li class="{{ dsld_is_route_active(['users.index', 'users.edit', 'users.store'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Users</span></a>
                 <ul class="ml-menu">
                     <li class="{{ dsld_is_route_active(['users.index', 'users.edit']) }}"><a href="{{ route('users.index') }}">All Users</a></li>
+                </ul>
+            </li>   
+            <li class="{{ dsld_is_route_active(['posts.index', 'posts.edit', 'posts.store', 'posts_cat.index', 'posts_cat.store', 'posts_cat.edit'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Posts</span></a>
+                <ul class="ml-menu">
+                    <li class="{{ dsld_is_route_active(['posts.index', 'posts.edit']) }}"><a href="{{ route('posts.index') }}">All Posts</a></li>
+                    <li class="{{ dsld_is_route_active(['posts_cat.index', 'posts_cat.edit']) }}"><a href="{{ route('posts_cat.index') }}">All Category</a></li>
                 </ul>
             </li>   
             <li class="{{ dsld_is_route_active(['roles.index', 'roles.edit', 'roles.store', 'permissions.index', 'permissions.edit', 'permissions.store'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Roles</span></a>
@@ -286,7 +294,7 @@
                     <!-- <li class="{{ dsld_is_route_active(['backend.header']) }}"><a href="{{ route('backend.header') }}">Header</a></li>
                     <li class="{{ dsld_is_route_active(['backend.footer']) }}"><a href="{{ route('backend.footer') }}">Footer</a></li> -->
                 </ul>
-            </li>  
+            </li> 
             <li class="{{ dsld_is_route_active(['profiles.index'], 'active open') }}"><a href="{{ route('profiles.index') }}"><i class="zmdi zmdi-account"></i><span>Profile</span></a></li> 
             <!-- <li>
                 <div class="progress-container progress-primary m-t-10">

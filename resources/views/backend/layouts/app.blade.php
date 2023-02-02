@@ -36,6 +36,61 @@
             .orange{color: #FF9948;}
             .blush {color: #e47297;}
             .disable_checkbox label::before, .disable_checkbox label::after{border: 1px solid #c30b0b;}
+            .lds-ripple {
+                display: inline-block;
+                position: relative;
+                width: 80px;
+                height: 80px;
+                }
+                .lds-ripple div {
+                position: absolute;
+                border: 4px solid #fff;
+                opacity: 1;
+                border-radius: 50%;
+                animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+                }
+                .lds-ripple div:nth-child(2) {
+                animation-delay: -0.5s;
+                }
+                @keyframes lds-ripple {
+                0% {
+                    top: 36px;
+                    left: 36px;
+                    width: 0;
+                    height: 0;
+                    opacity: 0;
+                }
+                4.9% {
+                    top: 36px;
+                    left: 36px;
+                    width: 0;
+                    height: 0;
+                    opacity: 0;
+                }
+                5% {
+                    top: 36px;
+                    left: 36px;
+                    width: 0;
+                    height: 0;
+                    opacity: 1;
+                }
+                100% {
+                    top: 0px;
+                    left: 0px;
+                    width: 72px;
+                    height: 72px;
+                    opacity: 0;
+                }
+                }
+                .full_page_loader{width: 100%;
+                    height: 100%;
+                    position: fixed;
+                    top: 0;
+                    background: #2b2b2b69;
+                    z-index: 99999999;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;}
         </style>
     </head>
      
@@ -91,6 +146,7 @@
         </section> 
 
         @include('backend.modals.add_media')
+        <div class="full_page_loader" style="display:none"><div class="lds-ripple"><div></div><div></div></div></div>
         <!-- Jquery Core Js --> 
         <script src="{{ dsld_static_asset('backend/assets/bundles/libscripts.bundle.js') }}"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) --> 
         <script src="{{ dsld_static_asset('backend/assets/bundles/vendorscripts.bundle.js') }}"></script> <!-- slimscroll, waves Scripts Plugin Js -->

@@ -38,7 +38,7 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('custom-pages.show_custom_page', [$value->slug]) }}" target="_blank">{{ $value->title }}</a><br>
+                        <a href="{{ route('home') }}/{{ $value->slug }}" target="_blank">{{ $value->title }}</a><br>
                         <small>{{ $value->slug }}</small>
                     </td>
                     <td><small>{{ $value->template }}</small></td>

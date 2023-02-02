@@ -2,6 +2,39 @@
 use  App\Models\Translation;
 use  App\Models\BusinessSetting;
 use  App\Models\Upload;
+use  App\Models\PostCategory;
+use  App\Models\PageMeta;
+
+
+
+//Get Post Parent Category Nmae
+if(!function_exists('dsld_post_parent_name_by_id')){
+    function dsld_post_parent_name_by_id($id){
+        $data = PostCategory::where('id', $id)->first();
+
+        if( $data != ''){
+            return $data->title;
+        }else{
+            return 'Null';
+        }
+        
+    }
+}
+
+//Get Post Parent Category Nmae
+if(!function_exists('dsld_page_meta_value_by_meta_key')){
+    function dsld_page_meta_value_by_meta_key($meta_key = '', $page_id){
+        $data = PageMeta::where('meta_key', $meta_key)->where('page_id', $page_id)->first();
+
+        if( $data != ''){
+            return $data->meta_value;
+        }else{
+            return 'Null';
+        }
+        
+    }
+}
+
 
 if(!function_exists('dsld_is_route_active')){
     function dsld_is_route_active(Array $routes, $output = 'active'){

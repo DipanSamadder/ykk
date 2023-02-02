@@ -307,7 +307,7 @@
                                     </div>
                                 </div>'
                                 data-target=".social_link_field">
-                                <i class="zmdi zmdi-hc-fw"></i>
+                                <i class="zmdi zmdi-hc-fw"></i> Add New
                             </button>
                         </div>
                         <div class="row">     

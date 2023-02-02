@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BusinessSettingsController;
 use App\Http\Controllers\UploadsMediaController;
@@ -8,6 +9,10 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\RolePermissionsController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostCategoryController;
+use App\Http\Controllers\PageSectionController;
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -22,6 +27,9 @@ Route::get('/admin', [HomeController::class, 'admin_dashboard'])->middleware(['a
 
 
 Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
+    //Clear Cache
+    Route::get('clear-cache', [HomeController::class, 'clear_cache'])->name('clear.cache');
+ 
     //Media library
     Route::get('media-library-admin', [UploadsMediaController::class, 'media_library_admin'])->name('media.library.admin');
     Route::post('media-uploads', [UploadsMediaController::class, 'uploads'])->name('media.uploads');
@@ -36,7 +44,19 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::post('page/destory', [PagesController::class, 'destory'])->name('pages.destory');
     Route::post('page/status', [PagesController::class, 'status'])->name('pages.status');
     Route::post('page/update', [PagesController::class, 'update'])->name('pages.update');
+    Route::post('page-extra-content/update', [PagesController::class, 'update_extra_content'])->name('pages_extra_content.update');
 
+    //Page Section
+    Route::get('page-sections', [PageSectionController::class, 'index'])->name('pages_section.index');
+    Route::post('page-sections/edit', [PageSectionController::class, 'edit'])->name('pages_section.edit');
+    Route::get('page-sections-fields/edit/{id}', [PageSectionController::class, 'edit_fields'])->name('pages_section_fields.edit');
+    Route::post('page-sections/store', [PageSectionController::class, 'store'])->name('pages_section.store');
+    Route::post('get-all-page-sections', [PageSectionController::class, 'get_ajax_page_sections'])->name('ajax_page_sections');
+    Route::post('page-sections/destory', [PageSectionController::class, 'destory'])->name('pages_section.destory');
+    Route::post('page-sections/status', [PageSectionController::class, 'status'])->name('pages_section.status');
+    Route::post('page-sections/update', [PageSectionController::class, 'update'])->name('pages_section.update');
+    Route::post('page-sections-fields/update', [PageSectionController::class, 'edit_field_update'])->name('pages_section_fields.update');
+    
     //Users
     Route::get('users', [UsersController::class, 'index'])->name('users.index');
     Route::get('user/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
@@ -78,6 +98,24 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::post('menus/status', [MenuController::class, 'status'])->name('menus.status');
     Route::get('menus-ordering/edit/{type}', [MenuController::class, 'menus_ordering'])->name('menus.ordering');
     Route::post('menus-ordering/update/', [MenuController::class, 'menus_ordering_update'])->name('menus.ordering.update');
+
+    //Post
+    Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('post/edit/{id}', [PostController::class, 'edit'])->name('posts.edit');
+    Route::post('post/store', [PostController::class, 'store'])->name('posts.store');
+    Route::post('get-all-posts', [PostController::class, 'get_ajax_posts'])->name('ajax_posts');
+    Route::post('post/destory', [PostController::class, 'destory'])->name('posts.destory');
+    Route::post('post/status', [PostController::class, 'status'])->name('posts.status');
+    Route::post('post/update', [PostController::class, 'update'])->name('posts.update');
+
+   //Post Category
+   Route::get('posts-cat', [PostCategoryController::class, 'index'])->name('posts_cat.index');
+   Route::get('post-cat/edit/{id}', [PostCategoryController::class, 'edit'])->name('posts_cat.edit');
+   Route::post('post-cat/store', [PostCategoryController::class, 'store'])->name('posts_cat.store');
+   Route::post('get-all-posts-cat', [PostCategoryController::class, 'get_ajax_posts_cat'])->name('ajax_posts_cat');
+   Route::post('post-cat/destory', [PostCategoryController::class, 'destory'])->name('posts_cat.destory');
+   Route::post('post-cat/status', [PostCategoryController::class, 'status'])->name('posts_cat.status');
+   Route::post('post-cat/update', [PostCategoryController::class, 'update'])->name('posts_cat.update');
 
     //Backend setting
     Route::get('backend-setting', [BusinessSettingsController::class, 'backend_setting'])->name('backend.setting');

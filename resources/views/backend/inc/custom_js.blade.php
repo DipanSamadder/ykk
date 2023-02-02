@@ -1,4 +1,9 @@
 <script>
+
+function clear_cache(){
+    DSLDAjaxSubmitFullLoader('{{ route("clear.cache") }}', '', 'GET', '1');
+}
+
 $(document).ready(function(){
     $('#upload_form').on('submit', function(event){
     event.preventDefault();

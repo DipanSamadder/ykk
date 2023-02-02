@@ -17,7 +17,7 @@ use App\Http\Controllers\HomeController;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('home/{slug}', [PagesController::class, 'show_custom_page'])->name('custom-pages.show_custom_page');
+Route::get('/p/{slug}', [PagesController::class, 'show_custom_page'])->name('custom-pages.show_custom_page');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

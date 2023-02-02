@@ -1,3 +1,4 @@
+
 $(function () {
     $('.dd').nestable();
 
@@ -112,6 +113,30 @@ function DSLDAjaxSubmit(url, parameters, method, Loader, flash = 1){
     });
 }
 
+function DSLDAjaxSubmitFullLoader(url, parameters, method, flash = 1){
+    $('.full_page_loader').fadeIn('slow');
+    $.ajax({
+        url : url,
+        type : method,
+        cache : false,
+        dataType: "JSON",
+        contentType: false,
+        processData: false,
+        data: parameters,
+        success: function (data) {
+            
+            $('.full_page_loader').fadeOut('slow');
+            if(data['status'] == 'success'){
+                DSLDAlertMessage(data['message'], 'success', flash);
+                return data['data'];
+            }else{
+                DSLDAlertMessage(data['message'], 'error', flash);
+                return data['data'];
+            }
+        }
+    });
+}
+
 
 function DSLDButtonLoader(item, action = null){
     if(action == 'start'){
@@ -166,7 +191,6 @@ function dsldFlashNotification(status, text = 'Welcome to our website') {
         });
 }
 
-
 $(function(){
     $('[data-toggle="add-more"]').each(function () {
         var $this = $(this);
@@ -190,3 +214,8 @@ $(function(){
         }
     );
 });
+
+
+function fullPageLoader(){
+
+}

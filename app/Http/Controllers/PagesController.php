@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Page;
+use App\Models\PageSection;
+use App\Models\PageMeta;
 use Validator;
 
 
@@ -85,8 +87,9 @@ class PagesController extends Controller
     }
     public function edit($id){
         $data = Page::where('id', $id)->first();
+        $section = PageSection::where('page_id', $id)->orderBy('order', 'asc')->where('status', 1)->get();
         $page['title'] = 'Edit Data';
-        return view('backend.modules.pages.edit', compact('data', 'page'));
+        return view('backend.modules.pages.edit', compact('data', 'page', 'section'));
     }
     
     public function show_custom_page($slug){
@@ -113,7 +116,52 @@ class PagesController extends Controller
         if($validator->fails()) {
             return response()->json(['status' => 'error', 'message' => $validator->errors()->all()]);
         }
-     
+
+      
+        if(is_array($request->setting) && count($request->setting) > 0){
+            foreach($request->setting as $key => $value){
+                $setting = PageMeta::where('meta_key', $value)->where('page_id', $request->id)->first();
+                if($setting != ''){
+                    if($request[$value] !='' || $request[$value] !='null'){
+                        $setting->meta_value = $request[$value];
+                        $setting->save();
+                    }
+                }else{
+                    if($request[$value] !='' || $request[$value] !='null'){
+                        $setting = new PageMeta;
+                        $setting->meta_key = $value;
+                        $setting->meta_value = $request[$value];
+                        $setting->page_id = $request->id;
+                        $setting->save();
+                    }
+                } 
+            }
+        }
+        
+        if(is_array($request->setting_slider) && count($request->setting_slider) > 0){
+
+            foreach($request->setting_slider as $key => $value){
+                if($value !=''){
+                    $setting2 = PageMeta::where('meta_key', $value)->where('page_id', $request->id)->first();
+                    if($setting2 != ''){
+                        if($request[$value] !='' || $request[$value] !='null'){
+                            $setting2->meta_value = json_encode($request[$value]);
+                            $setting2->save();
+                        }                        
+                    }else{
+                        if($request[$value] !='' || $request[$value] !='null'){
+                            $setting2 = new PageMeta;
+                            $setting2->meta_key = $value;
+                            $setting2->meta_value = json_encode($request[$value]);
+                            $setting2->page_id = $request->id;
+                            $setting2->save();
+                        } 
+                    }
+                }
+            }
+        }
+        
+
         if(Page::whereNotIn('id', [$request->id])->where('slug', strtolower($slug))->first() == null){
             $page =  Page::findOrFail($request->id);
             $page->title = $request->title;
@@ -140,6 +188,51 @@ class PagesController extends Controller
         }
 
     }
+    public function update_extra_content(Request $request){
+
+        // echo '<pre>';
+        // print_r($request->all());
+         foreach($request->type as $key => $type){
+             $meta_data = PageMeta::where('meta_key', $type)->first();
+             if($meta_data == ''){
+                 if(gettype($request[$type]) == 'array'){
+                     $new_data = new PageMeta;
+                     $new_data->meta_key = $type;
+                     $new_data->meta_value = json_encode($request[$type]);
+                     $new_data->page_id = $request->page_id;
+                     $new_data->section_id = $request->section_id;
+                     $new_data->save();
+                 }else{
+                     $new_data = new PageMeta;
+                     $new_data->meta_key = $type;
+                     $new_data->meta_value = $request[$type];
+                     $new_data->page_id = $request->page_id;
+                     $new_data->section_id = $request->section_id;
+                     $new_data->save();
+                 }
+             }else{
+                 
+                 if(gettype($request[$type]) == 'array'){
+                     $meta_data->meta_value =  json_encode($request[$type]);
+                     $meta_data->save();
+                 }else{
+                     $meta_data->meta_value =  $request[$type];
+                     $meta_data->save();
+                 }
+                 
+             }
+         }
+ 
+         return back();
+ 
+         /**$page =  Page::findOrFail($request->id);
+         $page->title = $request->title;
+         $page->order = $request->order;
+         $page->created_at = $request->date;
+         $page->content = $request->content;
+         $page->slug = strtolower($slug);**/
+ 
+     }
     public function destory(Request $request){
         $page = Page::findOrFail($request->id);
         if($page != ''){
