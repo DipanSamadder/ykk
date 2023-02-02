@@ -223,6 +223,7 @@
                         <select class="form-control" name="template" id="template" onchange="is_edited()">
                             <option value="">-- Please select --</option>
                             <option value="default_template"  @if($data->template == 'default_template') selected @endif>Default Template</option>
+                            <option value="about_us_template"  @if($data->template == 'about_us_template') selected @endif>About Us Template</option>
                         </select>                             
                     </div>
                     <div class="form-group">

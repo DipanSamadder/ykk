@@ -95,12 +95,12 @@ class PagesController extends Controller
     public function show_custom_page($slug){
         $page = Page::where('slug', $slug)->first();
         if($page != null){
-            return view('frontend.pages.default_template', compact('page'));
-            // if($page->template != null){
-            //         return view('frontend.pages.'.$page->template, compact('page'));
-            // }else{
-            //     return view('frontend.pages.common_page', compact('page'));
-            // }
+            //return view('frontend.pages.default_template', compact('page'));
+            if($page->template != null){
+                    return view('frontend.pages.'.$page->template, compact('page'));
+             }else{
+                 return view('frontend.pages.common_page', compact('page'));
+            }
         }
     }
     public function update(Request $request){
