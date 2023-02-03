@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Page;
 use App\Models\PageSection;
 use App\Models\PageMeta;
+use App\Models\Menu;
 use Validator;
 
 
@@ -16,7 +17,7 @@ class PagesController extends Controller
         return view('backend.modules.pages.show', compact('page'));
     }
     public function get_ajax_pages(Request $request){
-        if($request->page != 1){$start = $request->page * 4;}else{$start = 0;}
+        if($request->page != 1){$start = $request->page * 15;}else{$start = 0;}
         $search = $request->search;
         $sort = $request->sort;
 
@@ -44,7 +45,7 @@ class PagesController extends Controller
                     break;
             }
         }
-        $data = $data->skip($start)->paginate(4);
+        $data = $data->skip($start)->paginate(15);
         return view('backend.modules.pages.ajax_pages', compact('data'));
     }
     public function store(Request $request){
@@ -94,12 +95,13 @@ class PagesController extends Controller
     
     public function show_custom_page($slug){
         $page = Page::where('slug', $slug)->first();
+        $header_menu = Menu::where('type', 'header_menu')->where('status', 0)->orderBy('order', 'asc')->get();
         if($page != null){
             //return view('frontend.pages.default_template', compact('page'));
             if($page->template != null){
-                    return view('frontend.pages.'.$page->template, compact('page'));
+                    return view('frontend.pages.'.$page->template, compact('page', 'header_menu'));
              }else{
-                 return view('frontend.pages.common_page', compact('page'));
+                 return view('frontend.pages.common_page', compact('page', 'header_menu'));
             }
         }
     }

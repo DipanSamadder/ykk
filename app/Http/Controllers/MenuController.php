@@ -12,7 +12,7 @@ class MenuController extends Controller
         return view('backend.modules.menus.show', compact('page'));
     }
     public function get_ajax_menus(Request $request){
-        if($request->page != 1){$start = $request->page * 4;}else{$start = 0;}
+        if($request->page != 1){$start = $request->page * 15;}else{$start = 0;}
         $search = $request->search;
         $sort = $request->sort;
 
@@ -40,7 +40,7 @@ class MenuController extends Controller
                     break;
             }
         }
-        $data = $data->skip($start)->paginate(4);
+        $data = $data->skip($start)->paginate(15);
         return view('backend.modules.menus.ajax_menus', compact('data'));
     }
     public function store(Request $request){
@@ -78,7 +78,7 @@ class MenuController extends Controller
         return view('backend.modules.menus.edit', compact('data', 'page'));
     }
     public function menus_ordering($type){
-        $data = Menu::where('type', $type)->where('status', 0)->orderBy('order', 'asc')->get();
+        $data = Menu::where('type', $type)->where('status', 0)->orderBy('order', 'desc')->get();
         $page['title'] = 'Edit Type';
         return view('backend.modules.menus.ordering', compact('data', 'page', 'type'));
     }

@@ -79,22 +79,30 @@
     <div class="col-lg-9 col-sm-9 col-xs-6">
         <nav class="nav">
         <ul>  
-            <li class=""><a href="index.php">Home </a></li>
-            <li class="">
-                <a href="about-us.php">About Us</a>
-            <ul>
-                <li><a href="md-message.php">MD Message</a></li>
-                <li><a href="ykk-group-history.php">YKK Group History</a></li>
-                <li><a href="ykk-india-history.php">YKK India History</a></li>
-                <li><a href="quality-standard.php">Quality Standard</a></li>
-            </ul>
-            </li>
-            <li class=""><a href="product.php">Products </a></li>
-            <li class=""><a href="philosophy.php">Philosophy </a></li>
-            <li class=""><a href="career.php">Career </a></li>
-            <li class=""><a href="blog.php">Blogs </a></li>
-            <li class=""><a href="csr.php">CSR</a></li>
-            <li class=""><a href="contact-us.php" class="btn">Contact Us</a></li>
+        @if($header_menu != '')
+            @foreach($header_menu as $key => $value)
+                @if($value->level == 1)
+
+                <li class="">
+                    <a href="{{ $value->url != '' ? $value->url : '#' }}">{{ $value->name != ''? $value->name : 'Title Empty' }}</a>
+
+                    @php
+                        $header_menu2 = App\Models\Menu::where('parent', $value->id)->where('status', 0)->where('level', 2)->orderBy('order', 'asc')->get();
+                        
+                    @endphp
+                    @if(is_array($header_menu2) || count($header_menu2) > 0)
+                        <ul>
+                            @foreach($header_menu2 as $key2 => $value2)
+                            
+                            <li><a href="{{ $value2->url != '' ? $value2->url : '#' }}">{{ $value2->name != ''? $value2->name : 'Title Empty' }}</a></li>
+                        
+                            @endforeach
+                        </ul>
+                    @endif
+                </li>
+                @endif
+            @endforeach
+        @endif
         </ul>
         </nav>
     </div><!-- col -->
