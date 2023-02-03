@@ -30,5 +30,27 @@
 
 @endif
 @endif
+@if(dsld_page_meta_value_by_meta_key('setting_page_banner_slider', $page->id) == 'banner') 
+
+<div class="main-section banner inner-banner bg-img" style="background:url('{{ dsld_uploaded_asset($page->banner) }}'">
+  	<div class="container">
+      <div class="row">
+			@if(dsld_page_meta_value_by_meta_key('setting_page_name_hide', $page->id) != 'yes') 
+				<div class="col-lg-8 col-sm-8 col-xs-12">
+					<h1 class="text-white fs-50 mb-0">{{ $page->title }}</h1>
+				</div><!-- col -->
+				<div class="col-lg-4 col-sm-4 col-xs-12 align-self-center">
+					<div class="breadcrum text-right">
+						<ul class="breadcrumb mb-0 roboto font-weight-medium">
+							<li><a href="{{ route('home') }}">Home</a></li>
+							<li>{{ $page->title }}</li>
+						</ul>
+					</div>
+				</div><!-- col -->
+			@endif
+      </div>
+    </div>
+</div> <!-- banner -->
+@endif
 
 @endif

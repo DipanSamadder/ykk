@@ -48,9 +48,7 @@
                     <h2><strong>Description</strong></h2>
                 </div>
                 <div class="form-group">                                
-                    <div class="summernote" id="content" onchange="is_edited()">    @php $str = $data->content; @endphp
-                        <?php echo htmlspecialchars_decode($str); ?>
-                    </div>                                   
+                    <div class="summernote" id="content" onchange="is_edited()"><?php $str = $data->content; echo htmlspecialchars_decode($str); ?></div>                                   
                 </div>
             </div>
             <div class="card mb-0">
@@ -224,6 +222,8 @@
                             <option value="">-- Please select --</option>
                             <option value="default_template"  @if($data->template == 'default_template') selected @endif>Default Template</option>
                             <option value="about_us_template"  @if($data->template == 'about_us_template') selected @endif>About Us Template</option>
+                            <option value="csr_template"  @if($data->template == 'csr_template') selected @endif>CSR Template</option>
+                            <option value="philosophy_template"  @if($data->template == 'philosophy_template') selected @endif>Philosophy Template</option>
                         </select>                             
                     </div>
                     <div class="form-group">
@@ -545,12 +545,7 @@
                                             <div class="col-lg-10 col-md-10 col-sm-8">
                                                 <div class="form-group">
                                                     <input type="hidden" name="type[]" value="{{ $page_meta_key }}">
-                                                    <textarea  class="summernote" name="{{ $page_meta_key }}">
-                                                        @php 
-                                                        $str = dsld_page_meta_value_by_meta_key($page_meta_key, $data->id);
-                                                        @endphp
-                                                        <?php echo htmlspecialchars_decode($str); ?>
-                                                    </textarea >  
+                                                    <textarea  class="summernote" name="{{ $page_meta_key }}"><?php $str = dsld_page_meta_value_by_meta_key($page_meta_key, $data->id); echo htmlspecialchars_decode($str); ?></textarea >  
                                                 </div><small>Meta Key: {{ $page_meta_key }}</small>
                                             </div>
                                         </div>

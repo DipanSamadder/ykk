@@ -15,7 +15,7 @@ class PageSectionController extends Controller
     }
 
     public function get_ajax_page_sections(Request $request){
-        if($request->page != 1){$start = $request->page * 4;}else{$start = 0;}
+        if($request->page != 1){$start = $request->page * 15;}else{$start = 0;}
         $search = $request->search;
         $sort = $request->sort;
 
@@ -43,7 +43,7 @@ class PageSectionController extends Controller
                     break;
             }
         }
-        $data = $data->skip($start)->paginate(4);
+        $data = $data->skip($start)->paginate(15);
         return view('backend.modules.page_sections.ajax_sections', compact('data'));
     }
 
