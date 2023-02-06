@@ -259,10 +259,11 @@
             </li>
             <li class="{{ dsld_is_route_active(['backend.admin'], 'active open') }}"><a href="{{ route('backend.admin') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
             <li class="{{ dsld_is_route_active(['media.library.admin'], 'active open') }}"><a href="{{ route('media.library.admin') }}"><i class="zmdi zmdi-folder"></i><span>Media</span></a></li>
-            <li class="{{ dsld_is_route_active(['pages.index', 'pages.edit', 'pages.store', 'pages_section.index',   'pages_section_fields.edit'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-assignment"></i><span>Pages</span></a>
+            <li class="{{ dsld_is_route_active(['pages.index', 'pages.edit', 'pages.store', 'pages_section.index',   'pages_section_fields.edit','office.index',   'office.edit'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-assignment"></i><span>Pages</span></a>
                 <ul class="ml-menu">
                     <li class="{{ dsld_is_route_active(['pages.index', 'pages.edit']) }}"><a href="{{ route('pages.index') }}">All Pages</a></li>
                     <li class="{{ dsld_is_route_active(['pages_section.index',   'pages_section_fields.edit']) }}"><a href="{{ route('pages_section.index') }}">All Sections</a></li>
+                    <li class="{{ dsld_is_route_active(['office.index',   'office.edit']) }}"><a href="{{ route('office.index') }}">All Offices</a></li>
                 </ul>
             </li> 
             <li class="{{ dsld_is_route_active(['users.index', 'users.edit', 'users.store'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Users</span></a>

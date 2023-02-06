@@ -12,6 +12,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\PageSectionController;
+use App\Http\Controllers\OfficeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +46,17 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::post('page/status', [PagesController::class, 'status'])->name('pages.status');
     Route::post('page/update', [PagesController::class, 'update'])->name('pages.update');
     Route::post('page-extra-content/update', [PagesController::class, 'update_extra_content'])->name('pages_extra_content.update');
+    
 
+    //Office Listing
+    Route::get('offices', [OfficeController::class, 'index'])->name('office.index');
+    Route::post('office/edit', [OfficeController::class, 'edit'])->name('office.edit');
+    Route::post('office/store', [OfficeController::class, 'store'])->name('office.store');
+    Route::post('get-all-office', [OfficeController::class, 'get_ajax_offices'])->name('ajax_offices');
+    Route::post('office/destory', [OfficeController::class, 'destory'])->name('office.destory');
+    Route::post('office/status', [OfficeController::class, 'status'])->name('office.status');
+    Route::post('office/update', [OfficeController::class, 'update'])->name('office.update');
+    
     //Page Section
     Route::get('page-sections', [PageSectionController::class, 'index'])->name('pages_section.index');
     Route::post('page-sections/edit', [PageSectionController::class, 'edit'])->name('pages_section.edit');

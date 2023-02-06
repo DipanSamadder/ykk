@@ -84,8 +84,8 @@
                 @if($value->level == 1)
 
                 <li class="">
-                    <a href="{{ $value->url != '' ? $value->url : '#' }}">{{ $value->name != ''? $value->name : 'Title Empty' }}</a>
-
+                    <a href="{{ $value->url != '' ? $value->url : '#' }}"  @if(json_decode($value->setting, true)['target'] !='0') target="_blank" @endif  @if(json_decode($value->setting, true)['class'] !='null') class="{{ json_decode($value->setting, true)['class'] }}" @endif>{{ $value->name != ''? $value->name : 'Title Empty' }}</a>
+                      
                     @php
                         $header_menu2 = App\Models\Menu::where('parent', $value->id)->where('status', 0)->where('level', 2)->orderBy('order', 'asc')->get();
                         
