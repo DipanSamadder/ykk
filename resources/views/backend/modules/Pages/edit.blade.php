@@ -224,6 +224,9 @@
                             <option value="about_us_template"  @if($data->template == 'about_us_template') selected @endif>About Us Template</option>
                             <option value="csr_template"  @if($data->template == 'csr_template') selected @endif>CSR Template</option>
                             <option value="philosophy_template"  @if($data->template == 'philosophy_template') selected @endif>Philosophy Template</option>
+                            <option value="md_message_template"  @if($data->template == 'md_message_template') selected @endif>MD Message Template</option>
+                            <option value="quality_standard_template"  @if($data->template == 'quality_standard_template') selected @endif>Quality Standard Template</option>
+                            <option value="contact_us_template"  @if($data->template == 'contact_us_template') selected @endif>Contact Us Template</option>
                         </select>                             
                     </div>
                     <div class="form-group">
