@@ -3,6 +3,7 @@
 @section('content')
 
 @include('frontend.partials.slider-banner-section')
+
 @if(dsld_page_meta_value_by_meta_key('aboutus_about_file_0', $page->id) !='Null')
 <section class="main-section about-section">
 	<div class="dots-animation top-right"></div>
@@ -10,7 +11,7 @@
 		<div class="row">
 			<div class="col-lg-6 col-sm-6 col-xs-12">
 				<div class="abt-collage">
-					<img src="{{ dsld_uploaded_asset(json_decode(dsld_page_meta_value_by_meta_key('aboutus_about_file_0', $page->id), true)) }}" alt="About">
+					<img src="{{ dsld_uploaded_asset(json_decode(dsld_page_meta_value_by_meta_key('aboutus_about_file_0', $page->id), true)) }}" alt="{{ dsld_upload_file_title(json_decode(dsld_page_meta_value_by_meta_key('aboutus_about_file_0', $page->id), true)) }}">
 				</div>
 			</div><!-- col -->
 			<div class="col-lg-6 col-sm-6 col-xs-12 align-self-center">

@@ -227,6 +227,8 @@
                             <option value="md_message_template"  @if($data->template == 'md_message_template') selected @endif>MD Message Template</option>
                             <option value="quality_standard_template"  @if($data->template == 'quality_standard_template') selected @endif>Quality Standard Template</option>
                             <option value="contact_us_template"  @if($data->template == 'contact_us_template') selected @endif>Contact Us Template</option>
+                            <option value="group_timeline_template"  @if($data->template == 'group_timeline_template') selected @endif>Group Timeline Template</option>
+                            <option value="india_timeline_template"  @if($data->template == 'india_timeline_template') selected @endif>India Timeline Template</option>
                         </select>                             
                     </div>
                     <div class="form-group">

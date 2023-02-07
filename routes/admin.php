@@ -13,6 +13,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\PageSectionController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\TimelineController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,10 +54,17 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::post('office/edit', [OfficeController::class, 'edit'])->name('office.edit');
     Route::post('office/store', [OfficeController::class, 'store'])->name('office.store');
     Route::post('get-all-office', [OfficeController::class, 'get_ajax_offices'])->name('ajax_offices');
-    Route::post('office/destory', [OfficeController::class, 'destory'])->name('office.destory');
-    Route::post('office/status', [OfficeController::class, 'status'])->name('office.status');
     Route::post('office/update', [OfficeController::class, 'update'])->name('office.update');
+
     
+    //History of YKK
+    Route::get('history-of-timeline', [TimelineController::class, 'index'])->name('history.timeline.index');
+    Route::post('history-of-timeline/edit', [TimelineController::class, 'edit'])->name('history.timeline.edit');
+    Route::post('history-of-timeline/store', [TimelineController::class, 'store'])->name('history.timeline.store');
+    Route::post('get-all-history-of-timeline', [TimelineController::class, 'get_ajax_history_of_timeline'])->name('ajax_history_of_timelines');
+    Route::post('history-of-timeline/update', [TimelineController::class, 'update'])->name('history.timeline.update');
+    
+
     //Page Section
     Route::get('page-sections', [PageSectionController::class, 'index'])->name('pages_section.index');
     Route::post('page-sections/edit', [PageSectionController::class, 'edit'])->name('pages_section.edit');
