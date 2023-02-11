@@ -278,6 +278,11 @@
                     <li class="{{ dsld_is_route_active(['posts_cat.index', 'posts_cat.edit']) }}"><a href="{{ route('posts_cat.index') }}">All Category</a></li>
                 </ul>
             </li>   
+            <li class="{{ dsld_is_route_active(['contact_form.index', 'contact_form_fields.edit', 'contact_form_fields.update'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Contact Forms</span></a>
+                <ul class="ml-menu">
+                    <li class="{{ dsld_is_route_active(['contact_form.index', 'contact_form_fields.edit', 'contact_form_fields.update']) }}"><a href="{{ route('contact_form.index') }}">All Forms</a></li>
+                 </ul>
+            </li> 
             <li class="{{ dsld_is_route_active(['roles.index', 'roles.edit', 'roles.store', 'permissions.index', 'permissions.edit', 'permissions.store'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Roles</span></a>
                 <ul class="ml-menu">
                     <li class="{{ dsld_is_route_active(['roles.index', 'roles.edit']) }}"><a href="{{ route('roles.index') }}">All Roles</a></li>

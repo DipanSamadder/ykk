@@ -3,7 +3,9 @@ use  App\Models\Translation;
 use  App\Models\BusinessSetting;
 use  App\Models\Upload;
 use  App\Models\PostCategory;
-use  App\Models\PageMeta;
+use App\Models\Page;
+use App\Models\PageMeta;
+use App\Models\PageSection;
 
 
 
@@ -22,6 +24,48 @@ if(!function_exists('dsld_post_parent_name_by_id')){
 }
 
 //Get Post Parent Category Nmae
+if(!function_exists('dsld_generate_slug_by_text')){
+    function dsld_generate_slug_by_text($text){
+        return str_replace(' ', '_', $text);
+
+    }
+}
+
+if(!function_exists('dsld_is_valid_email')){
+    function dsld_is_valid_email($email){ 
+        return (!preg_match(
+            "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$^", $email))
+                    ? 0 : 1;   
+    } 
+}
+
+if(!function_exists('dsld_is_valid_phone')){
+    function dsld_is_valid_phone($phone){ 
+        return (!preg_match('/^[0-9]{10}+$/', $phone))
+                    ? 0 : 1;   
+    } 
+}
+
+
+//Get Post Parent Category Nmae
+if(!function_exists('dsld_form_field_by_form_id')){
+    function dsld_form_field_by_form_id($id = ''){
+        $data = Page::where('id', $id)->where('type', 'contact_form')->first();
+        if( $data != ''){
+            $meta_fields = json_decode($data->meta_fields);     
+
+            usort($meta_fields, function($a, $b) { //Sort the array using a user defined function
+                return $a->order > $b->order ? 1 : -1; //Compare the scores
+            }); 
+            return $meta_fields;
+        }else{
+            return array();
+        }
+
+    }
+}
+
+//Get Post Parent Category Nmae
 if(!function_exists('dsld_page_meta_value_by_meta_key')){
     function dsld_page_meta_value_by_meta_key($meta_key = '', $page_id){
         $data = PageMeta::where('meta_key', $meta_key)->where('page_id', $page_id)->first();
@@ -29,11 +73,12 @@ if(!function_exists('dsld_page_meta_value_by_meta_key')){
         if( $data != ''){
             return $data->meta_value;
         }else{
-            return 'Null';
+            return '';
         }
         
     }
 }
+
 
 
 if(!function_exists('dsld_is_route_active')){
@@ -41,6 +86,18 @@ if(!function_exists('dsld_is_route_active')){
         foreach($routes as $route){
             if(Route::currentRouteName() == $route) return $output;
         }
+    }
+}
+
+if(!function_exists('include_form_by_id')){
+    function include_form_by_id($form_id){
+
+        if(dsld_page_meta_value_by_meta_key('layout', $form_id) !=''){
+            
+            echo view('frontend.forms.'.dsld_page_meta_value_by_meta_key('layout', $form_id), compact('form_id'));
+        }else{
+            echo '';
+        } 
     }
 }
 

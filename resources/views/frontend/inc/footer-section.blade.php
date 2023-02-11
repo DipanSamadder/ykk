@@ -44,35 +44,9 @@
             <div class="col-lg-6 col-sm-6 col-xs-12">
                 <div class="contact-form white-placeholder pt-5 pb-5">
                     <h3 class="wow fadeInUp text-white">Customer Query</h3>
-                    <form action="" method="post" class="mt-4 bg-transparent p-0 contact_query">
-                        <div class="field">
-                            <div class="field-sm">
-                                <input type="text" name="Name" placeholder="Name" id="name" class="form-control">
-                            </div><!-- field -->
-                            <div class="field-sm">
-                                <input type="text" name="cmp-name" placeholder="Company Name" id="c_name" class="form-control">
-                            </div> 
-                        </div><!-- field -->
-                        <div class="field">
-                            <div class="field-sm">
-                                <input type="text" name="email" placeholder="Email" id="email" class="form-control">
-                            </div><!-- field -->
-                            <div class="field-sm">
-                                <input type="text" name="position " placeholder="Position" id="position" class="form-control">
-                            </div><!-- field -->
-                        </div><!-- field -->
-                        <div class="field">
-                            <input type="text" name="phone"  onkeypress="return onlyNumberKey(event)" maxlength="16" placeholder="Phone No." id="phone" class="form-control">
-                        </div><!-- field -->
-
-                        <div class="field">
-                            <textarea placeholder="Enter Your Message" class="form-control" id="message" rows="3"></textarea>  
-                        </div><!-- field -->
-                        <div class="field pt-2">
-                            <button class="white-btn" id="submit">Send </button>
-                        </div><!-- field -->
-                    </form>
-
+                   
+                    @php include_form_by_id(45);  @endphp
+                   
                 </div>
             </div><!-- col -->
             <div class="col-lg-6 col-sm-6 col-xs-12 pr-0">

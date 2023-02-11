@@ -14,6 +14,7 @@ use App\Http\Controllers\PostCategoryController;
 use App\Http\Controllers\PageSectionController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\TimelineController;
+use App\Http\Controllers\ContactFormController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,20 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::post('page/update', [PagesController::class, 'update'])->name('pages.update');
     Route::post('page-extra-content/update', [PagesController::class, 'update_extra_content'])->name('pages_extra_content.update');
     
+    
+    //Contact Form
+    Route::get('contact-form', [ContactFormController::class, 'index'])->name('contact_form.index');
+    Route::post('contact-form/edit', [ContactFormController::class, 'edit'])->name('contact_form.edit');
+    Route::get('contact-form-fields/edit/{id}', [ContactFormController::class, 'edit_fields'])->name('contact_form_fields.edit');
+    Route::post('contact-form/store', [ContactFormController::class, 'store'])->name('contact_form.store');
+    Route::post('get-all-contact-form', [ContactFormController::class, 'get_ajax_contact_forms'])->name('ajax_contact_forms');
+    Route::post('contact-form/destory', [ContactFormController::class, 'destory'])->name('contact_form.destory');
+    Route::post('contact-form/status', [ContactFormController::class, 'status'])->name('contact_form.status');
+    Route::post('contact-form/update', [ContactFormController::class, 'update'])->name('contact_form.update');
+    Route::post('contact-form-fields/update', [ContactFormController::class, 'edit_field_update'])->name('contact_form_fields.update');
+    
+    Route::post('contact-form/submit-data', [ContactFormController::class, 'ajax_submit_data'])->name('contact_form.submit_data');
+
 
     //Office Listing
     Route::get('offices', [OfficeController::class, 'index'])->name('office.index');
