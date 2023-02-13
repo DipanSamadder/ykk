@@ -40,7 +40,7 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::post('media-files_gets', [UploadsMediaController::class, 'files_gets_admin'])->name('media.gets.admin');
     Route::post('media-destroy-file', [UploadsMediaController::class, 'files_destroy_admin'])->name('media.destroy.admin');
     Route::post('media/update', [UploadsMediaController::class, 'update'])->name('media.update');
-    Route::post('media/edit', [UploadsMediaController::class, 'edit'])->name('media.edit');
+    Route::post('media/edit', [UploadsMediaController::class, 'page'])->name('media.edit');
 
     //Pages
     Route::get('pages', [PagesController::class, 'index'])->name('pages.index');
