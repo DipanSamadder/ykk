@@ -231,6 +231,7 @@
                             <option value="india_timeline_template"  @if($data->template == 'india_timeline_template') selected @endif>India Timeline Template</option>
                             <option value="career_template"  @if($data->template == 'career_template') selected @endif>Career Template</option>
                             <option value="blogs_template"  @if($data->template == 'blogs_template') selected @endif>Blog Template</option>
+                            <option value="products_template"  @if($data->template == 'products_template') selected @endif>Products Template</option>
                         </select>                             
                     </div>
                     <div class="form-group">

@@ -3,7 +3,6 @@
 @section('header')
 <style>
     .table tbody td, .table tbody th {padding: 0.25rem 0.55rem;}
-    section.content {background: #ffe4e4;}
 </style>
 
 
@@ -16,19 +15,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header">
-                <h2><strong>All</strong> Sections </h2>
-                <!-- <ul class="header-dropdown">
-                    <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                        <ul class="dropdown-menu dropdown-menu-right slideUp">
-                            <li><a href="javascript:void(0);">Action</a></li>
-                            <li><a href="javascript:void(0);">Another action</a></li>
-                            <li><a href="javascript:void(0);">Something else</a></li>
-                        </ul>
-                    </li>
-                    <li class="remove">
-                        <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
-                    </li>
-                </ul> -->
+                <h2><strong>All</strong> Products </h2>
             </div>
             <div class="body">
                 <div class="row">
@@ -38,9 +25,6 @@
                 </div>
                 <div class="col-lg-6">
                     <form class="form-inline" id="search_media">
-                        <!-- <div class="form-group">                                
-                            <input type="date" class="form-control ms  mr-2" name="get_date" onchange="filter()">
-                        </div> -->
                         <div class="col-lg-6 form-group">                                
                             <select class="form-control" name="sort" onchange="filter()">
                                 <option value="newest">New to Old</option>
@@ -65,91 +49,13 @@
 @endsection
 
 @section('footer')
-    @include('backend.modules.page_sections.add')
-        
-    <!--Edit Section-->
-    <div class="modal fade" id="edit_larger_modals" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="title" id="edit_larger_modals_title"></h4>
-                </div>
-                <form id="update_form" action="{{ route('pages_section.update') }}" method="POST" enctype="multipart/form-data" >
-                @csrf 
-                <div class="modal-body">
-                    <div id="edit_larger_modals_body">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-round waves-effect" data-dismiss="modal">CLOSE</button>
-                    <div class="swal-button-container">
-                        <button type="submit" class="btn btn-success btn-round waves-effect dsld-btn-loader">UPDATE</button>
-                    </div>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!--Edit Section-->
-
-
+    @include('backend.modules.products.add')
     <input type="hidden" name="page_no" id="page_no" value="1">
 <script>
     function add_new_lg_modal_form(){
         $('#add_new_larger_modals').modal('show');
-        $('#add_new_larger_modals_tile').text('Add New Section');
+        $('#add_new_larger_modals_tile').text('Add New Product');
     }
-
-    function edit_lg_modal_form(id){
-        $('#edit_larger_modals_body').html('');
-        $('#edit_larger_modals').modal('show');
-        $('#edit_larger_modals_title').text('Edit Section');
-        $.ajax({
-            url: "{{ route('pages_section.edit') }}",
-            type: "post",
-            cache : false,
-            data: {
-                    '_token':'{{ csrf_token() }}',
-                    'user_id':'{{ Auth::user()->id }}',
-                    'section_id': id,
-                },
-            success: function(d) {
-                $('#edit_larger_modals_body').html(d);
-            }
-        });
-    }
-
-
-    $(document).ready(function(){
-        $('#update_form').on('submit', function(event){
-        event.preventDefault();
-            $('.dsld-btn-loader').addClass('btnloading');
-            var Loader = ".btnloading";
-            DSLDButtonLoader(Loader, "start");
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                cache : false,
-                data: {
-                    '_token':'{{ csrf_token() }}', 
-                    'user_id':'{{ Auth::user()->id }}',
-                    'title': $('#edit_title').val(),
-                    'order': $('#edit_order').val(),
-                    'page_id': $('#edit_page_id').val(),
-                    'section_id': $('#edit_section_id').val(),
-                    'status': $('#edit_status').val(),
-                },
-                success: function(data) {
-                    DSLDButtonLoader(Loader, "");
-                    dsldFlashNotification(data['status'], data['message']);
-                    if(data['status'] =='success'){
-                        get_pages();
-                    }
-                    
-                }
-            });
-        });
-    });
 
     $(document).ready(function(){
         $('#add_new_form').on('submit', function(event){
@@ -157,6 +63,7 @@
             $('.dsld-btn-loader').addClass('btnloading');
             var Loader = ".btnloading";
             DSLDButtonLoader(Loader, "start");
+            var content =  $("#content").summernote('code');
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
@@ -165,13 +72,14 @@
                     '_token':'{{ csrf_token() }}', 
                     'user_id':'{{ Auth::user()->id }}',
                     'title': $('#title').val(),
-                    'order': $('#order').val(),
-                    'page_id': $('#page_id').val(),
+                    'thumbnail': $('#thumbnail').val(),
                     'status': $('#status').val(),
+                    'content': content,
                 },
                 success: function(data) {
                     if(data['status'] =='success'){
-                        $('#add_new_form')[0].reset();   
+                        $('#add_new_form')[0].reset(); 
+                        $("#content").html('');   
                         get_pages();
                         $('#add_new_larger_modals').modal('hide'); 
                     }
@@ -192,7 +100,7 @@
         $('#data_table').html('<center><img src="{{ dsld_static_asset('backend/assets/images/circle-loading.gif') }}" style="max-width:100px" ></center>');
 
         $.ajax({
-            url: "{{ route('ajax_page_sections') }}",
+            url: "{{ route('ajax_products') }}",
             type: "post",
             cache : false,
             data: {

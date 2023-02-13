@@ -72,7 +72,7 @@ class PagesController extends Controller
             $page->meta_description =  $request->title;
             $page->keywords =  $request->title;
             $page->type = 'custom_page';
-            $page->template = 'pages';
+            $page->template = 'default_template';
             $page->is_meta = 0;
             $page->banner = $request->banner;
             $page->status = $request->status;

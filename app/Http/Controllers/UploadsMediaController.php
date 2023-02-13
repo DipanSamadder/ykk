@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Upload;
-
+use Validator;
 
 class UploadsMediaController extends Controller
 {
@@ -85,15 +85,45 @@ class UploadsMediaController extends Controller
         }
     
     }
+    function update(Request $request){
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:50'
+        ]);
 
+        if($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => $validator->errors()->all()]);
+        }
+
+        $media = Upload::findOrFail($request->id);
+
+        if($media != ''){
+            $media->file_title = $request->title;
+            if($media->save()){
+                return response()->json(['status' => 'success', 'message'=> 'Data update success.']);
+            }else{
+                return response()->json(['status' => 'error', 'message'=> 'Data update failed.']);
+            }
+        }else{
+            return response()->json(['status' => 'warning', 'message'=> 'Not Found! please try again.']);
+        }
+    }
+    function edit(Request $request){
+        $data = Upload::where('user_id', $request->user_id)->where('id', $request->id)->first();
+        return view('backend.modules.media.edit', compact('data'));
+    }
     function files_gets_admin(Request $request){
+        if($request->page != 1){$start = $request->page * 24;}else{$start = 0;}
         $user_id = $request->user_id;
         $search = $request->search;
-
         $sort = $request->sort;
+        $media_type = $request->media_type;
+        
         $data = Upload::where('user_id', $user_id);
         if($search != ''){
             $data->where('file_title', 'like', '%'.$search.'%');
+        }
+        if($media_type != 'all' && $media_type != ''){
+            $data->where('type', $media_type);
         }
        
         if($sort != ''){
@@ -115,8 +145,8 @@ class UploadsMediaController extends Controller
                     break;
             }
         }
-        $data = $data->get();
-        return view('backend.partials.media_items', compact('data')); 
+        $data = $data->skip($start)->paginate(24);
+        return view('backend.modules.media.media_items', compact('data')); 
     }
 
     function files_destroy_admin(Request $request){

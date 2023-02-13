@@ -15,6 +15,7 @@ use App\Http\Controllers\PageSectionController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\ContactFormController;
+use App\Http\Controllers\ProductContorller;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,8 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::post('media-uploads', [UploadsMediaController::class, 'uploads'])->name('media.uploads');
     Route::post('media-files_gets', [UploadsMediaController::class, 'files_gets_admin'])->name('media.gets.admin');
     Route::post('media-destroy-file', [UploadsMediaController::class, 'files_destroy_admin'])->name('media.destroy.admin');
+    Route::post('media/update', [UploadsMediaController::class, 'update'])->name('media.update');
+    Route::post('media/edit', [UploadsMediaController::class, 'edit'])->name('media.edit');
 
     //Pages
     Route::get('pages', [PagesController::class, 'index'])->name('pages.index');
@@ -141,6 +144,15 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::post('post/destory', [PostController::class, 'destory'])->name('posts.destory');
     Route::post('post/status', [PostController::class, 'status'])->name('posts.status');
     Route::post('post/update', [PostController::class, 'update'])->name('posts.update');
+
+    //Product
+    Route::get('products', [ProductContorller::class, 'index'])->name('products.index');
+    Route::get('product/edit/{id}', [ProductContorller::class, 'edit'])->name('products.edit');
+    Route::post('product/store', [ProductContorller::class, 'store'])->name('products.store');
+    Route::post('get-all-products', [ProductContorller::class, 'get_ajax_products'])->name('ajax_products');
+    Route::post('product/destory', [ProductContorller::class, 'destory'])->name('products.destory');
+    Route::post('product/status', [ProductContorller::class, 'status'])->name('products.status');
+    Route::post('product/update', [ProductContorller::class, 'update'])->name('products.update');
 
    //Post Category
    Route::get('posts-cat', [PostCategoryController::class, 'index'])->name('posts_cat.index');

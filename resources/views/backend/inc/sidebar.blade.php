@@ -275,7 +275,7 @@
             <li class="{{ dsld_is_route_active(['posts.index', 'posts.edit', 'posts.store', 'posts_cat.index', 'posts_cat.store', 'posts_cat.edit'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Posts</span></a>
                 <ul class="ml-menu">
                     <li class="{{ dsld_is_route_active(['posts.index', 'posts.edit']) }}"><a href="{{ route('posts.index') }}">All Posts</a></li>
-                    <li class="{{ dsld_is_route_active(['posts_cat.index', 'posts_cat.edit']) }}"><a href="{{ route('posts_cat.index') }}">All Category</a></li>
+                    <!-- <li class="{{ dsld_is_route_active(['posts_cat.index', 'posts_cat.edit']) }}"><a href="{{ route('posts_cat.index') }}">All Category</a></li> -->
                 </ul>
             </li>   
             <li class="{{ dsld_is_route_active(['contact_form.index', 'contact_form_fields.edit', 'contact_form_fields.update'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Contact Forms</span></a>

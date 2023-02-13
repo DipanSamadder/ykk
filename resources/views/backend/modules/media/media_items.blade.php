@@ -3,7 +3,7 @@
         @foreach($data as $key => $value)             
         <div class="col-lg-3 col-md-4 col-sm-12">
             <div class="card">
-                <a href="javascript:void(0);" class="file">
+                <a href="javascript:void(0);" class="file" onclick="popup_media({{ $value->id }})">
                     <div class="hover">
                         <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger" onclick="file_delete('{{ $value->id }}')">
                             <i class="zmdi zmdi-delete"></i>
@@ -45,5 +45,10 @@
             </div>
         </div>
         @endforeach
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            {{  $data->links('backend.pagination.custom') }}
+        </div>
+    @else 
+        <div class="col-lg-12 col-md-12 col-sm-12">Sorry!. Noting Found.</div>
     @endif
 </div>
