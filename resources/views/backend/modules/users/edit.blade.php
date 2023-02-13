@@ -74,6 +74,7 @@
                                 <option value="">-- Please select --</option>
                                 <option value="user" @if($data->user_type == 'user') selected @endif>User</option>
                                 <option value="seller" @if($data->user_type == 'seller') selected @endif>Seller</option>
+                                <option value="subadmin" @if($data->user_type == 'subadmin') selected @endif>Admin</option>
                             </select> 
                             </div>
                         </div>
@@ -157,6 +158,7 @@
                     'id': $('#id').val(),
                     'name': $('#name').val(),
                     'phone': $('#phone').val(),
+                    'user_type': $('#user_type').val(),
                     'email': $('#email').val(),
                     'date': $('#date').val(),
                     'banned': $('#banned').val(),

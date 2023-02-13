@@ -3,11 +3,19 @@
         @foreach($data as $key => $value)             
         <div class="col-lg-3 col-md-4 col-sm-12">
             <div class="card">
-                <a href="javascript:void(0);" class="file" onclick="popup_media({{ $value->id }})">
+                <a href="javascript:void(0);" class="file">
                     <div class="hover">
+                        @if(dsld_have_user_permission('media_delete') == 1)  
                         <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger" onclick="file_delete('{{ $value->id }}')">
                             <i class="zmdi zmdi-delete"></i>
                         </button>
+                        @endif
+
+                        @if(dsld_have_user_permission('media_edit') == 1)  
+                        <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary" onclick="popup_media({{ $value->id }})">
+                            <i class="zmdi zmdi-edit"></i>
+                        </button>
+                        @endif
                     </div>
                     @if($value->type == 'image')
                     <div class="image">

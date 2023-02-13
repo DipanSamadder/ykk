@@ -53,7 +53,7 @@
                     </td>
                     <td>
                         <p class="text-center mb-0 action_items">
-                            <a href="{{ route('users.edit', [$value->id]) }}" target="_blank" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
+                            <a href="{{ route('users.edit', [$value->id]) }}" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
                                 <i class="zmdi zmdi-edit"></i>
                             </a>
                             <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-danger" onclick="DSLDDeleteAlert('{{ $value->id }}','{{ route('users.destory') }}','{{ csrf_token() }}')">

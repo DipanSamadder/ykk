@@ -13,7 +13,7 @@ class RolePermissionsController extends Controller
         return view('backend.modules.roles.permissions.show', compact('page'));
     }
     public function get_ajax_permissions(Request $request){
-        if($request->page != 1){$start = $request->page * 4;}else{$start = 0;}
+        if($request->page != 1){$start = $request->page * 25;}else{$start = 0;}
         $search = $request->search;
         $sort = $request->sort;
 
@@ -35,7 +35,7 @@ class RolePermissionsController extends Controller
                     break;
             }
         }
-        $data = $data->skip($start)->paginate(4);
+        $data = $data->skip($start)->paginate(25);
         return view('backend.modules.roles.permissions.ajax_permissions', compact('data'));
     }
     public function store(Request $request){

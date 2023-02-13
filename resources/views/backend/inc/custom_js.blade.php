@@ -1,4 +1,13 @@
 <script>
+@if(Session::get('success') != '')
+    dsldFlashNotification('success', '<?= Session::get('success'); ?>');
+@elseif(Session::get('warning') != '')
+    dsldFlashNotification('warning', '<?= Session::get('warning'); ?>');
+@elseif(Session::get('info') != '')
+    dsldFlashNotification('info', '<?= Session::get('info'); ?>');
+@elseif(Session::get('error') != '')
+    dsldFlashNotification('error', '<?= Session::get('error'); ?>');
+@endif
 
 function clear_cache(){
     DSLDAjaxSubmitFullLoader('{{ route("clear.cache") }}', '', 'GET', '1');

@@ -3,10 +3,35 @@ use  App\Models\Translation;
 use  App\Models\BusinessSetting;
 use  App\Models\Upload;
 use  App\Models\PostCategory;
+use App\Models\Role;
+use App\Models\RolePermission;
 use App\Models\Page;
 use App\Models\PageMeta;
 use App\Models\PageSection;
 
+
+//Get Post Parent Category Nmae
+if(!function_exists('dsld_have_user_permission')){
+    function dsld_have_user_permission($key){
+        if(Auth::user()->user_type != 'admin'){
+            $data = RolePermission::where('keys', $key)->where('status', 1)->first();
+            if( $data != ''){
+
+                if(in_array($data->id, json_decode(@Auth::user()->roles->permissions, true))){
+                    return 1;
+                }else{
+                    return 0;
+                }
+               
+            }else{
+                return 0;
+            }
+        }else{
+            return 1;
+        }
+ 
+    }
+}
 
 
 //Get Post Parent Category Nmae

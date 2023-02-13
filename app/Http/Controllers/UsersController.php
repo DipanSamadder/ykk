@@ -22,7 +22,7 @@ class UsersController extends Controller
         $search = $request->search;
         $sort = $request->sort;
 
-        $data = User::where('email','!=','')->where('user_type','!=','admin');
+        $data = User::where('email','!=','')->where('id','!=',1);
         if($search != ''){
             $data->where('name', 'like', '%'.$search.'%');
         }

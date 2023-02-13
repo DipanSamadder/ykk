@@ -4,6 +4,7 @@
             <tr class="text-center">
                 <th>Sr</th>
                 <th>Name</th>
+                <th>Keys</th>
                 <th>Date</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -13,6 +14,7 @@
             <tr class="text-center">
                 <th>Sr</th>
                 <th>Name</th>
+                <th>Keys</th>
                 <th>Date</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -27,6 +29,7 @@
                     <td>
                         <a href="{{ route('permissions.edit', [$value->id]) }}" target="_blank">{{ $value->name }}</a><br>
                     </td>
+                    <td><small>{{ $value->keys }}</small></td>
                     <td><small>U: {{ date('h:i:s d M, Y', strtotime($value->updated_at)) }}<br>C: {{ date('h:i:s d M, Y', strtotime($value->created_at)) }}</small></td>
                     <td>
 

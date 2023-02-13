@@ -8,7 +8,11 @@
 @section('content')
 <div class="row clearfix">
     <div class="col-lg-4">
+
+        @if(dsld_have_user_permission('media_add') == 1)  
         <button class="btn btn-success btn-round mb-4" data-toggle="modal" data-target="#DSLDImageUpload" title="Add Media"><i class="zmdi zmdi-hc-fw"></i> Add New</button>
+        @endif
+
         <button class="btn btn-info btn-round mb-4" onclick="get_files();"><i class="zmdi zmdi-hc-fw"></i> Reload</button>
     </div>
     <div class="col-lg-8">

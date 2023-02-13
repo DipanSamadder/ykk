@@ -5,15 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Upload;
 use Validator;
+use Auth;
 
 class UploadsMediaController extends Controller
 {
     function media_library_admin(){
+        if(dsld_have_user_permission('media') == 0){
+            return "You have no permission.";
+        }
+
         $page['title'] = 'Show All Media Files';
         return view('backend.modules.media.show', compact('page'));
     }
 
     function uploads(Request $request){
+        if(dsld_have_user_permission('media_add') == 0){
+            return response()->json(['status' => 'error', 'content'=> "You have no permission."]);
+        }
+
         $type = array(
             "jpg"=>"image",
             "jpeg"=>"image",
@@ -66,7 +75,7 @@ class UploadsMediaController extends Controller
                         }
                     }
                     $upload->file_path = $request->file('files'.$x)->store('uploads/media');
-                    $upload->user_id = 1;
+                    $upload->user_id = Auth::user()->id ? Auth::user()->id : 0;
                     $upload->extension = strtolower($request->file('files'.$x)->getClientOriginalExtension());
                     if(isset($type[$upload->extension])){
                         $upload->type = $type[$upload->extension];
@@ -86,6 +95,10 @@ class UploadsMediaController extends Controller
     
     }
     function update(Request $request){
+        if(dsld_have_user_permission('media_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50'
         ]);
@@ -98,11 +111,14 @@ class UploadsMediaController extends Controller
 
         if($media != ''){
             $media->file_title = $request->title;
+
+         
             if($media->save()){
                 return response()->json(['status' => 'success', 'message'=> 'Data update success.']);
             }else{
                 return response()->json(['status' => 'error', 'message'=> 'Data update failed.']);
             }
+            
         }else{
             return response()->json(['status' => 'warning', 'message'=> 'Not Found! please try again.']);
         }
@@ -112,6 +128,11 @@ class UploadsMediaController extends Controller
         return view('backend.modules.media.edit', compact('data'));
     }
     function files_gets_admin(Request $request){
+
+        if(dsld_have_user_permission('media') == 0){ 
+            return "You have no permission.";
+        }
+
         if($request->page != 1){$start = $request->page * 24;}else{$start = 0;}
         $user_id = $request->user_id;
         $search = $request->search;
@@ -150,7 +171,9 @@ class UploadsMediaController extends Controller
     }
 
     function files_destroy_admin(Request $request){
-
+        if(dsld_have_user_permission('media_delete') == 0){
+            return response()->json(['status' => false]);
+        }
         if(file_exists(public_path().'/'.Upload::where('id', $request->id)->first()->file_path)){
             unlink(public_path().'/'.Upload::where('id', $request->id)->first()->file_path);
         }

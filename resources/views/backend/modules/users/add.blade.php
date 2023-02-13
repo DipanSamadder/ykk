@@ -53,6 +53,7 @@
                                         <option value="">-- Please select --</option>
                                         <option value="user" selected>User</option>
                                         <option value="seller">Seller</option>
+                                        <option value="subadmin">Admin</option>
                                     </select>                             
                                 </div>
                             </div>

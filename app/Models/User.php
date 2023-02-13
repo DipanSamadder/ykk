@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -50,4 +51,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getRedirectRoute()
+    {
+        if(Auth::user()->user_type =='admin'){
+            return '/admin';
+        }elseif(Auth::user()->user_type =='subadmin'){
+            return '/admin';
+        }elseif(Auth::user()->user_type =='seller'){
+            return '/seller-pannel';
+        }else{
+            return '/user-pannel';
+        }
+    }
+
+    public function roles(){
+        return $this->belongsTo(Role::class, 'role');
+    }
 }

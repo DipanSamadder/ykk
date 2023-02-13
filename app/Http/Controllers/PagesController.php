@@ -15,10 +15,18 @@ use Validator;
 class PagesController extends Controller
 {
     public function index(){
+        if(dsld_have_user_permission('pages') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+
         $page['title'] = 'Show all pages';
         return view('backend.modules.pages.show', compact('page'));
     }
     public function get_ajax_pages(Request $request){
+        if(dsld_have_user_permission('media') == 0){
+            return "You have no permission.";
+        }
+
         if($request->page != 1){$start = $request->page * 15;}else{$start = 0;}
         $search = $request->search;
         $sort = $request->sort;
@@ -51,6 +59,9 @@ class PagesController extends Controller
         return view('backend.modules.pages.ajax_pages', compact('data'));
     }
     public function store(Request $request){
+        if(dsld_have_user_permission('pages_add') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->title));
 
 
@@ -89,6 +100,9 @@ class PagesController extends Controller
         }
     }
     public function edit($id){
+        if(dsld_have_user_permission('pages_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $data = Page::where('id', $id)->first();
         $section = PageSection::where('page_id', $id)->orderBy('order', 'asc')->where('status', 1)->get();
         $page['title'] = 'Edit Data';
@@ -111,6 +125,9 @@ class PagesController extends Controller
         }
     }
     public function update(Request $request){
+        if(dsld_have_user_permission('pages_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug));
 
 
@@ -196,7 +213,9 @@ class PagesController extends Controller
 
     }
     public function update_extra_content(Request $request){
-
+        if(dsld_have_user_permission('pages_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         // echo '<pre>';
         // print_r($request->all());
          foreach($request->type as $key => $type){
@@ -241,6 +260,9 @@ class PagesController extends Controller
  
      }
     public function destory(Request $request){
+        if(dsld_have_user_permission('pages_delete') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $page = Page::findOrFail($request->id);
         if($page != ''){
             if($page->delete()){
@@ -254,6 +276,10 @@ class PagesController extends Controller
        
     }
     public function status(Request $request){
+        if(dsld_have_user_permission('pages_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+        
         $page = Page::findOrFail($request->id);
         if($page != ''){
             if($page->status != $request->status){
