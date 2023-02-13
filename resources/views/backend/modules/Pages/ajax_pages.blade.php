@@ -57,7 +57,7 @@
                             <a href="{{ route('custom-pages.show_custom_page', [$value->slug]) }}" target="_blank" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-info">
                                 <i class="zmdi zmdi-hc-fw"></i>
                             </a>
-                            <a href="{{ route('pages.edit', [$value->id]) }}" target="_blank" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
+                            <a href="{{ route('pages.edit', [$value->id]) }}"  class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
                                 <i class="zmdi zmdi-edit"></i>
                             </a>
                             <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-danger" onclick="DSLDDeleteAlert('{{ $value->id }}','{{ route('pages.destory') }}','{{ csrf_token() }}')">

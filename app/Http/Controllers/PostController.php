@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Menu;
 use Validator;
 
 class PostController extends Controller
@@ -13,7 +14,7 @@ class PostController extends Controller
         return view('backend.modules.posts.show', compact('page'));
     }
     public function get_ajax_posts(Request $request){
-        if($request->page != 1){$start = $request->page * 4;}else{$start = 0;}
+        if($request->page != 1){$start = $request->page * 25;}else{$start = 0;}
         $search = $request->search;
         $sort = $request->sort;
 
@@ -41,7 +42,7 @@ class PostController extends Controller
                     break;
             }
         }
-        $data = $data->skip($start)->paginate(4);
+        $data = $data->skip($start)->paginate(25);
         return view('backend.modules.posts.ajax_posts', compact('data'));
     }
     public function store(Request $request){
@@ -106,7 +107,7 @@ class PostController extends Controller
             $post->keywords =  $request->keywords;
             $post->order = $request->order;
             $post->banner = $request->banner;
-            $post->category_id = $request->category_id;
+            $post->catalogue = $request->catalogue;
             $post->thumbnail = $request->thumbnail;
             $post->visibility = $request->visibility;
             $post->created_at = $request->date;
@@ -149,5 +150,14 @@ class PostController extends Controller
             return response()->json(['status' => 'warning', 'message' => 'Data Not found.']);
         }
        
+    }
+    public function show_custom_blogs($slug){
+        $post = Post::where('slug', $slug)->first();
+        $header_menu = Menu::where('type', 'header_menu')->where('status', 0)->orderBy('order', 'asc')->get();
+        
+        if($post != null){
+            return view('frontend.blogs.single', compact('post', 'header_menu')); 
+        }
+
     }
 }

@@ -120,10 +120,10 @@
 @section('footer')
 <script>
     function ajax_form_submit_cf7(id){
-        var form_label = $('input[name="form_label[]"], textarea[name="form_label[]"]').map(function(){ 
+        var form_label = $('#contact_submit'+id+' input[name="form_label[]"], textarea[name="form_label[]"]').map(function(){ 
                     return this.value; 
                 }).get();
-        var form_type = $('input[name="form_type[]"]').map(function(){ 
+        var form_type = $('#contact_submit'+id+' input[name="form_type[]"]').map(function(){ 
             return this.value; 
             }).get();
 

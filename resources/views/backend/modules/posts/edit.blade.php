@@ -16,7 +16,7 @@
             <input type="hidden" name="id" id="id" value="{{ $data->id }}" />
             <div class="card mb-0">
                 <div class="header">
-                    <a href="{{ route('custom-pages.show_custom_page', [$data->slug ]) }}" target="_blank">         
+                    <a href="{{ route('blogs.show_blog', [$data->slug ]) }}" target="_blank">         
                         <h2><strong> <i class="zmdi zmdi-hc-fw"></i> {{ $data->title }}</strong></h2>
                     </a>
                 </div>
@@ -69,7 +69,7 @@
                             <option value="0" @if($data->visibility == 0) selected @endif>Deactive</option>
                         </select>                             
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                             <label class="form-label">Category <small class="text-danger">*</small></label>                                 
                             <select class="form-control show-tick ms select2" name="category_id" id="category_id" onchange="is_edited()" multiple>
                                 <option value="0">-- Please select --</option>
@@ -78,7 +78,7 @@
                                     <option value="{{ $value->id }}" @if($data->category_id != 0) @if(in_array($value->id, json_decode($data->category_id, true))) selected @endif @endif>{{ $value->title}}  - P({{ dsld_post_parent_name_by_id($value->parent_id) }}) - L({{ $value->level }})</option>
                                 @endforeach
                             </select>                            
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label class="form-label">Order</label>                                 
                         <input type="text" name="order" id="order" onchange="is_edited()" class="form-control" placeholder="Order" value="{{ $data->order }}" />                                   
@@ -92,7 +92,7 @@
                     <div class="swal-button-container">
                         <button type="submit" class="btn btn-success btn-round waves-effect dsld-btn-loader" id="submit_btn" disabled="disabled">Update</button>
                     </div>
-                    <a href="{{ route('custom-pages.show_custom_page', [$data->slug ]) }}" traget="_blank"  class="btn btn-success btn-round waves-effect">Preview</a>
+                    <a href="{{ route('blogs.show_blog', [$data->slug ]) }}" traget="_blank"  class="btn btn-success btn-round waves-effect">Preview</a>
                     <button type="button" class="btn btn-danger btn-round waves-effect" onclick="DSLDDeleteAlert('{{ $data->id }}','{{ route('pages.destory') }}','{{ csrf_token() }}')"><i class="zmdi zmdi-delete"></i></button>
                 </div>
             </div>
@@ -114,6 +114,22 @@
                             <img src="{{ dsld_uploaded_asset($data->banner) }}"  alt="{{ dsld_upload_file_title($data->banner) }}" class="img-fluid">
                         </div> 
                         @endif                                                            
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-0">
+                <div class="header">
+                    <h2><strong>Catalogue</strong></h2>                        
+                </div>
+                <div class="body">
+                    <div class="form-group">
+                        <label class="form-label">Catalogue</label>
+                        <select class="form-control show-tick ms select2" name="catalogue" id="catalogue" onchange="is_edited()">
+                            <option value="0">-- Please select --</option>
+                            @foreach(App\Models\Upload::where('user_id', Auth::user()->id)->where('type', '!=', 'image')->get() as $key => $value)
+                                <option value="{{ $value->id }}" @if($data->catalogue == $value->id) selected @endif>({{ $value->id }}) - {{ $value->file_title}} </option>
+                            @endforeach
+                        </select>                                                           
                     </div>
                 </div>
             </div>
@@ -189,7 +205,7 @@
                     'visibility': $('#visibility').val(),
                     'date': $('#date').val(),
                     'banner': $('#banner').val(),
-                    'category_id': $('#category_id').val(),
+                    'catalogue': $('#catalogue').val(),
                     'thumbnail': $('#thumbnail').val(),
                     'meta_title': $('#meta_title').val(),
                     'meta_description': $('#meta_description').val(),

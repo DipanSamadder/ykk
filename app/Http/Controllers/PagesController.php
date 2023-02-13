@@ -7,6 +7,8 @@ use App\Models\Page;
 use App\Models\PageSection;
 use App\Models\PageMeta;
 use App\Models\Menu;
+use App\Models\Post;
+
 use Validator;
 
 
@@ -97,11 +99,14 @@ class PagesController extends Controller
         $page = Page::where('slug', $slug)->first();
         $header_menu = Menu::where('type', 'header_menu')->where('status', 0)->orderBy('order', 'asc')->get();
         if($page != null){
-            //return view('frontend.pages.default_template', compact('page'));
-            if($page->template != null){
-                    return view('frontend.pages.'.$page->template, compact('page', 'header_menu'));
-             }else{
-                 return view('frontend.pages.common_page', compact('page', 'header_menu'));
+             if($page->template == 'blogs_template'){
+                $posts = Post::where('type', 'posts')->paginate(6);
+                return view('frontend.pages.'.$page->template, compact('page', 'header_menu', 'posts'));
+
+            }else if($page->template != null){
+                return view('frontend.pages.'.$page->template, compact('page', 'header_menu'));
+            } else{
+                 return view('frontend.pages.default_template', compact('page', 'header_menu'));
             }
         }
     }

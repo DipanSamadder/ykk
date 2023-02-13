@@ -45,7 +45,7 @@
                     </td>
                     <td>
                         <p class="text-center mb-0 action_items">
-                            <a href="{{ route('pages_section_fields.edit', [$value->id]) }}" target="_blank" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
+                            <a href="{{ route('pages_section_fields.edit', [$value->id]) }}"  class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
                                 <i class="zmdi zmdi-hc-fw"></i>
                             </a>
                             <a href="javascript:void(0)"  onclick="edit_lg_modal_form({{ $value->id }});" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">

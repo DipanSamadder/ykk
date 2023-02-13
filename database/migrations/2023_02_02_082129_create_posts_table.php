@@ -21,6 +21,7 @@ return new class extends Migration
             $table->longText('content')->nullable();
             $table->string('excerpt')->nullable();
             $table->integer('banner')->default(0);
+            $table->integer('catalogue')->default(0);
             $table->integer('thumbnail')->default(0);
             $table->string('category_id')->nullable();
             $table->string('author')->nullable();
