@@ -4,7 +4,13 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>YKK</title>
+        <meta name="robots" content="index, follow">
+
+        <title>@yield('meta_title', dsld_get_setting('site_title'))</title>
+        <meta name="description" content="@yield('meta_description', dsld_get_setting('site_meta_description') )" />
+        <meta name="keywords" content="@yield('meta_keywords', dsld_get_setting('site_meta_keyword') )">
+
+
         @include('frontend.inc.header')
         @yield('header')
         <style>

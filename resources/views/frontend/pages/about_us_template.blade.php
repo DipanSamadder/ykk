@@ -1,10 +1,12 @@
 @extends('frontend.layouts.app')
 
+@include('frontend.partials.page_meta')
+
 @section('content')
 
 @include('frontend.partials.slider-banner-section')
 
-@if(dsld_page_meta_value_by_meta_key('aboutus_about_file_0', $page->id) !='Null')
+@if(dsld_page_meta_value_by_meta_key('aboutus_about_file_0', $page->id) !='')
 <section class="main-section about-section">
 	<div class="dots-animation top-right"></div>
 	<div class="container">
@@ -74,4 +76,5 @@
 	</div>
 </section>
 @endif
+
 @endsection

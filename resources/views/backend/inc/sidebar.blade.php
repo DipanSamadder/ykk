@@ -217,13 +217,12 @@
         <li><a href="javascript:void(0);" data-toggle="modal" data-target="#DSLDImageUpload" title="Add Media"><i class="zmdi zmdi-camera"></i></a></li>
         <li><a href="javascript:void(0);" title="Clear Cache" onclick="clear_cache()"><i class="zmdi zmdi-hc-fw"></i></a></li>
         <li>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <a href="javascript::void(0)" class="mega-menu" title="Sign Out" onclick="event.preventDefault();
-                 this.closest('form').submit();"><i class="zmdi zmdi-power"></i>
-                </a>
-            </form>
+            <a href="{{ route('backend.setting') }}"  title="Setting"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>
         </li>
+        <li>
+            <a href="javascript::void(0);" class="mega-menu" title="Sign Out" onclick="logout()"><i class="zmdi zmdi-power"></i></a>
+        </li>
+        
     </ul>
 </div>
 

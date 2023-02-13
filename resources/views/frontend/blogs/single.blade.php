@@ -1,6 +1,8 @@
 @extends('frontend.layouts.app')
+@include('frontend.partials.single_blog_meta')
 
 @section('content')
+
 <div class="main-section banner inner-banner bg-img" style="background:url('{{ dsld_static_asset('frontend/assets/images/national-sales.jpg') }}">
  <div class="container">
   <div class="row">
@@ -65,7 +67,12 @@
       <div class="col-lg-8 col-sm-8 col-xs-12 blog-pg-single">
         <div class="article-single">
           
-          <h2 class="wow fadeInUp fs-30 mb-2">{{ $post->title }}</h2>
+          <h2 class="wow fadeInUp fs-30 mb-2">
+            {{ $post->title }} 
+            @auth()
+            <a href="{{ route('posts.edit', [$post->id]) }}"><i class="fas fa-edit"></i> </a>
+            @endauth
+          </h2>
             <div class="article-info p-0">
             <ul class="article-meta list-style">
               <li><span class="material-icons tyellow"> event_note </span> {{ date('d M, Y', strtotime($post->created_at)) }}</li>

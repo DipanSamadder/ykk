@@ -1,4 +1,5 @@
 @extends('frontend.layouts.app')
+@include('frontend.partials.page_meta')
 
 @section('content')
 

@@ -29,5 +29,13 @@ $(document).ready(function(){
     });
 
 });
+function logout(){
+    $('.full_page_loader').fadeIn('slow');
+    $.post('{{ route("logout") }}', { '_token':'{{ csrf_token() }}'}, 
+        function(returnedData){
+            $('.full_page_loader').fadeOut('slow');
+            location.reload();
+    });
+}
 $(document).ready(function() { $(".select2").select2(); });
 </script>

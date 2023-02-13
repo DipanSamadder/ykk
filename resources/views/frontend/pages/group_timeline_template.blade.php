@@ -1,4 +1,5 @@
 @extends('frontend.layouts.app')
+@include('frontend.partials.page_meta')
 
 @section('content')
 
@@ -130,4 +131,5 @@
   </div><!-- container -->
   <div class="dots-animation bottom-left"></div>
 </section>
+
 @endsection

@@ -37,7 +37,11 @@
       <div class="row">
 			@if(dsld_page_meta_value_by_meta_key('setting_page_name_hide', $page->id) != 'yes') 
 				<div class="col-lg-8 col-sm-8 col-xs-12">
-					<h1 class="text-white fs-50 mb-0">{{ $page->title }}</h1>
+					<h1 class="text-white fs-50 mb-0">{{ $page->title }}
+					@auth()
+						<a href="{{ route('pages.edit', [$page->id]) }}"><i class="fas fa-edit"></i> </a>
+					@endauth
+					</h1>
 				</div><!-- col -->
 				<div class="col-lg-4 col-sm-4 col-xs-12 align-self-center">
 					<div class="breadcrum text-right">

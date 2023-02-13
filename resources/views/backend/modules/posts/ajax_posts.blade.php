@@ -51,7 +51,7 @@
                     </td>
                     <td>
                         <p class="text-center mb-0 action_items">
-                            <a href="{{ route('custom-pages.show_custom_page', [$value->slug]) }}" target="_blank" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-info">
+                            <a href="{{ route('blogs.show_blog', [$value->slug]) }}" target="_blank" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-info">
                                 <i class="zmdi zmdi-hc-fw"></i>
                             </a>
                             <a href="{{ route('posts.edit', [$value->id]) }}" target="_blank" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
