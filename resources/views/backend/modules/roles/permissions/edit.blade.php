@@ -29,6 +29,35 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 form-control-label">
+                            <label class="form-label">Keys <small class="text-danger">*</small></label>  
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8">
+                            <div class="form-group">
+                            <input type="text" name="keys" id="keys" class="form-control" placeholder="Keys" onchange="is_edited()" value="{{ $data->keys }}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 form-control-label">
+                            <label class="form-label">Parent <small class="text-danger">*</small></label>  
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8">
+                            <div class="form-group">
+                                <select class="form-control" name="parent_id" id="parent_id" onchange="is_edited()">
+                                    <option value="">-- Please select --</option>
+                                    @if(App\Models\RolePermission::where('parent_id', 0)->where('status', 1)->get() !='')
+                                        
+                                        @foreach (App\Models\RolePermission::where('parent_id', 0)->where('status', 1)->get() as $key => $value)
+                                            <option value="{{ $value->id }}" @if($value->id == $data->parent_id) selected @endif>{{ $value->name }}</option>
+                                        @endforeach
+
+                                    @endif
+                                </select>
+                            </div>
+                        </div>  
+                    </div>
                 </div>
             </div>
         </div>
@@ -80,6 +109,8 @@
                     'user_id':'{{ Auth::user()->id }}',
                     'id': $('#id').val(),
                     'name': $('#name').val(),
+                    'keys': $('#keys').val(),
+                    'parent_id': $('#parent_id').val(),
                 },
                 success: function(data) {
                     DSLDButtonLoader(Loader, "");

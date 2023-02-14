@@ -10,6 +10,10 @@ use Validator;
 class PageSectionController extends Controller
 {
     public function index(){
+        if(dsld_have_user_permission('sections') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+        
         $page['title'] = 'Show all sections';
         return view('backend.modules.page_sections.show', compact('page'));
     }
@@ -48,6 +52,9 @@ class PageSectionController extends Controller
     }
 
     public function store(Request $request){
+        if(dsld_have_user_permission('sections_add') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50',
@@ -75,6 +82,9 @@ class PageSectionController extends Controller
     }
 
     public function edit(Request $request){
+        if(dsld_have_user_permission('sections_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $data = PageSection::where('id', $request->section_id)->first();
         return view('backend.modules.page_sections.edit', compact('data'));
     }
@@ -86,7 +96,9 @@ class PageSectionController extends Controller
     }
     
     public function update(Request $request){
-
+        if(dsld_have_user_permission('sections_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50',
             'page_id' => 'required|integer',
@@ -117,7 +129,9 @@ class PageSectionController extends Controller
     }
 
     public function edit_field_update(Request $request){
-
+        if(dsld_have_user_permission('sections_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
       
         $sectionMeta = PageSection::findOrFail($request->id);
         $form = array();
@@ -140,6 +154,9 @@ class PageSectionController extends Controller
     }
 
     public function destory(Request $request){
+        if(dsld_have_user_permission('sections_delete') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $section = PageSection::findOrFail($request->id);
         if($section != ''){
             PageMeta::where('section_id', $request->id)->delete();
@@ -155,6 +172,9 @@ class PageSectionController extends Controller
     }
 
     public function status(Request $request){
+        if(dsld_have_user_permission('sections_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $section = PageSection::findOrFail($request->id);
         if($section != ''){
             if($section->status != $request->status){

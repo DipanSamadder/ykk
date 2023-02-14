@@ -10,6 +10,10 @@ use Validator;
 class TimelineController extends Controller
 {
     public function index(){
+        if(dsld_have_user_permission('timelines') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+
         $page['title'] = 'Show all Timeline';
         return view('backend.modules.timelines.show', compact('page'));
     }
@@ -48,6 +52,9 @@ class TimelineController extends Controller
     }
     
     public function store(Request $request){
+        if(dsld_have_user_permission('timelines_add') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50',
@@ -86,13 +93,18 @@ class TimelineController extends Controller
     }
 
     public function edit(Request $request){
+        if(dsld_have_user_permission('timelines_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $data = Page::where('id', $request->page_id)->first();
         return view('backend.modules.timelines.edit', compact('data'));
     }
 
 
     public function update(Request $request){
-
+        if(dsld_have_user_permission('timelines_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50',
             'month' => 'required',

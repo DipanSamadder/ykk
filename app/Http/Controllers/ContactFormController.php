@@ -13,6 +13,10 @@ use Validator;
 class ContactFormController extends Controller
 {
     public function index(){
+        if(dsld_have_user_permission('contact-forms') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+
         $page['title'] = 'Show all Contact Forms';
         return view('backend.modules.contact_forms.show', compact('page'));
     }
@@ -51,7 +55,9 @@ class ContactFormController extends Controller
     }
 
     public function store(Request $request){
-
+        if(dsld_have_user_permission('contact-forms_add') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50',
             'status' => 'required|integer'
@@ -153,19 +159,27 @@ class ContactFormController extends Controller
 
     }
     public function edit(Request $request){
+        if(dsld_have_user_permission('contact-forms_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $data = Page::where('id', $request->page_id)->first();
         $mdetails = PageMeta::where('page_id', $request->page_id)->get();
         return view('backend.modules.contact_forms.edit', compact('data', 'mdetails'));
     }
 
     public function edit_fields($id){
+        if(dsld_have_user_permission('contact-forms_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $page['title'] = 'Update fields elements';
         $data = Page::where('id', $id)->first();
         return view('backend.modules.contact_forms.edit_forms', compact('data', 'page'));
     }
 
     public function update(Request $request){
-
+        if(dsld_have_user_permission('contact-forms_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50',
             'send_mail' => 'required|email',
@@ -227,7 +241,9 @@ class ContactFormController extends Controller
     }
 
     public function edit_field_update(Request $request){
-
+        if(dsld_have_user_permission('contact-forms_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
 
         $page = Page::findOrFail($request->id);
         $form = array();
@@ -262,6 +278,9 @@ class ContactFormController extends Controller
     }
 
     public function destory(Request $request){
+        if(dsld_have_user_permission('contact-forms_delete') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $Page = Page::findOrFail($request->id);
         if($Page != ''){
             if($Page->delete()){
@@ -276,6 +295,10 @@ class ContactFormController extends Controller
     }
 
     public function status(Request $request){
+        if(dsld_have_user_permission('contact-forms_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+        
         $Page = Page::findOrFail($request->id);
         if($Page != ''){
             if($Page->status != $request->status){

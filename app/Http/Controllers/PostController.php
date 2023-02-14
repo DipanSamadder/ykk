@@ -10,6 +10,10 @@ use Validator;
 class PostController extends Controller
 {
     public function index(){
+        if(dsld_have_user_permission('posts') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+
         $page['title'] = 'Post List';
         return view('backend.modules.posts.show', compact('page'));
     }
@@ -46,6 +50,9 @@ class PostController extends Controller
         return view('backend.modules.posts.ajax_posts', compact('data'));
     }
     public function store(Request $request){
+        if(dsld_have_user_permission('posts_add') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->title));
 
 
@@ -81,11 +88,19 @@ class PostController extends Controller
         }
     }
     public function edit($id){
+        if(dsld_have_user_permission('posts_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+
         $data = Post::where('id', $id)->first();
         $page['title'] = 'Edit Data';
         return view('backend.modules.posts.edit', compact('data', 'page'));
     }
     public function update(Request $request){
+        if(dsld_have_user_permission('posts_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+        
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug));
 
 
@@ -124,6 +139,9 @@ class PostController extends Controller
         }
     }
     public function destory(Request $request){
+        if(dsld_have_user_permission('posts_delete') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $post = Post::findOrFail($request->id);
         if($post != ''){
             if($post->delete()){
@@ -137,6 +155,10 @@ class PostController extends Controller
        
     }
     public function status(Request $request){
+        if(dsld_have_user_permission('posts_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+        
         $post = Post::findOrFail($request->id);
         if($post != ''){
             if($post->visibility != $request->status){

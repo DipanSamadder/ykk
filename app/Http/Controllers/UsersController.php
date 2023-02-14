@@ -10,6 +10,9 @@ use Hash;
 class UsersController extends Controller
 {
     public function index(){
+        if(dsld_have_user_permission('users') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $page['title'] = 'Show all users';
         return view('backend.modules.users.show', compact('page'));
     }
@@ -18,6 +21,7 @@ class UsersController extends Controller
         return view('backend.modules.users.profiles.edit', compact('page'));
     }
     public function get_ajax_users(Request $request){
+
         if($request->page != 1){$start = $request->page * 4;}else{$start = 0;}
         $search = $request->search;
         $sort = $request->sort;
@@ -50,6 +54,9 @@ class UsersController extends Controller
         return view('backend.modules.users.ajax_users', compact('data'));
     }
     public function store(Request $request){
+        if(dsld_have_user_permission('users_add') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
@@ -84,6 +91,10 @@ class UsersController extends Controller
         }
     }
     public function edit($id){
+        if(dsld_have_user_permission('users_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+
         $data = User::where('id', $id)->first();
         $page['title'] = 'Edit Data';
         return view('backend.modules.users.edit', compact('data', 'page'));
@@ -112,6 +123,9 @@ class UsersController extends Controller
         
     }
     public function update(Request $request){
+        if(dsld_have_user_permission('users_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
@@ -146,6 +160,10 @@ class UsersController extends Controller
 
     }
     public function destory(Request $request){
+        if(dsld_have_user_permission('users_delete') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+        
         $user = User::findOrFail($request->id);
         if($user != ''){
             if($user->delete()){
@@ -159,6 +177,10 @@ class UsersController extends Controller
        
     }
     public function status(Request $request){
+        if(dsld_have_user_permission('users_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+
         $user = User::findOrFail($request->id);
         if($user != ''){
             if($user->banned != $request->status){

@@ -8,6 +8,9 @@ use Validator;
 class OfficeController extends Controller
 {
     public function index(){
+        if(dsld_have_user_permission('office') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $page['title'] = 'Show all Offices';
         return view('backend.modules.offices.show', compact('page'));
     }
@@ -46,6 +49,9 @@ class OfficeController extends Controller
     }
     
     public function store(Request $request){
+        if(dsld_have_user_permission('office_add') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50',
@@ -83,11 +89,17 @@ class OfficeController extends Controller
     }
 
     public function edit(Request $request){
+        if(dsld_have_user_permission('office_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $data = Page::where('id', $request->page_id)->first();
         return view('backend.modules.offices.edit', compact('data'));
     }
     public function update(Request $request){
-
+        if(dsld_have_user_permission('office_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+        
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:50',
             'address' => 'required|max:150',

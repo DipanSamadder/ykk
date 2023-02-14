@@ -20,7 +20,9 @@
             <div class="body">
                 <div class="row">
                 <div class="col-lg-6">
+                    @if(dsld_have_user_permission('permissions_add') == 1)
                     <button class="btn btn-success btn-round mb-4" title="Add New" onclick="add_new_lg_modal_form()"><i class="zmdi zmdi-hc-fw"></i> Add New</button>
+                    @endif
                     <button class="btn btn-info btn-round mb-4" onclick="get_pages();"><i class="zmdi zmdi-hc-fw"></i> Reload</button>
                 </div>
                 <div class="col-lg-6">

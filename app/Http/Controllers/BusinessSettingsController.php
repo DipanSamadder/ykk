@@ -7,10 +7,18 @@ use App\Models\BusinessSetting;
 class BusinessSettingsController extends Controller
 {
     function backend_setting(){
+        if(dsld_have_user_permission('backend-setting') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+
         $page['title'] = 'Backend Setting';
         return view('backend.modules.settings.backend', compact('page'));
     }
     function frontend_setting(){
+        if(dsld_have_user_permission('frontend-setting') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+
         $page['title'] = 'Frontend Setting';
         return view('backend.modules.settings.frontend', compact('page'));
     }

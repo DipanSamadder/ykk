@@ -8,8 +8,12 @@
                 <th>Level</th>
                 <th>Parent</th>
                 <th>Setting</th>
+                @if(dsld_have_user_permission('menus_edit') == 1)
                 <th>Status</th>
+                @endif
+                @if(dsld_have_user_permission('menus_edit') == 1 || dsld_have_user_permission('menus_delete') == 1)
                 <th>Action</th>
+                @endif
             </tr>
         </thead>
         <tfoot>
@@ -20,8 +24,12 @@
                 <th>Level</th>
                 <th>Parent</th>
                 <th>Setting</th>
+                @if(dsld_have_user_permission('menus_edit') == 1)
                 <th>Status</th>
+                @endif
+                @if(dsld_have_user_permission('menus_edit') == 1 || dsld_have_user_permission('menus_delete') == 1)
                 <th>Action</th>
+                @endif
             </tr>
         </tfoot>
     <tbody>
@@ -47,6 +55,8 @@
                     <td><small>@if($par != '') <strong>{{ $par->name }} @endif </strong><br>Level: {{ $value->level }}</small></td>
                     <td><small>{{ $value->setting }}</small></td>
                     <td><small>U: {{ date('h:i:s d M, Y', strtotime($value->updated_at)) }}<br>C: {{ date('h:i:s d M, Y', strtotime($value->created_at)) }}</small></td>
+                   
+                    @if(dsld_have_user_permission('menus_edit') == 1)
                     <td>
 
                         <div class="custom-control custom-switch">
@@ -55,16 +65,23 @@
                         </div>
 
                     </td>
+                    @endif
+                    @if(dsld_have_user_permission('menus_edit') == 1 || dsld_have_user_permission('menus_delete') == 1)
                     <td>
                         <p class="text-center mb-0 action_items">
+                            @if(dsld_have_user_permission('menus_edit') == 1)
                             <a href="{{ route('menus.edit', [$value->id]) }}" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
                                 <i class="zmdi zmdi-edit"></i>
                             </a>
+                            @endif
+                            @if(dsld_have_user_permission('menus_delete') == 1)
                             <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-danger" onclick="DSLDDeleteAlert('{{ $value->id }}','{{ route('menus.destory') }}','{{ csrf_token() }}')">
                                     <i class="zmdi zmdi-delete"></i>
                             </a>
+                            @endif
                         </p>
                     </td>
+                    @endif
                 </tr>
             @endforeach
         @else

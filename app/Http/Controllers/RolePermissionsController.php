@@ -9,10 +9,14 @@ use Validator;
 class RolePermissionsController extends Controller
 {
     public function index(){
+        if(dsld_have_user_permission('permissions') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $page['title'] = 'Show all permissions';
         return view('backend.modules.roles.permissions.show', compact('page'));
     }
     public function get_ajax_permissions(Request $request){
+   
         if($request->page != 1){$start = $request->page * 25;}else{$start = 0;}
         $search = $request->search;
         $sort = $request->sort;
@@ -39,7 +43,9 @@ class RolePermissionsController extends Controller
         return view('backend.modules.roles.permissions.ajax_permissions', compact('data'));
     }
     public function store(Request $request){
-
+        if(dsld_have_user_permission('permissions_add') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $keys = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name));
 
         $validator = Validator::make($request->all(), [
@@ -74,12 +80,18 @@ class RolePermissionsController extends Controller
         }
     }
     public function edit($id){
+        if(dsld_have_user_permission('permissions_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $data = RolePermission::where('id', $id)->first();
         $page['title'] = 'Edit Data';
         return view('backend.modules.roles.permissions.edit', compact('data', 'page'));
     }
     
     public function update(Request $request){
+        if(dsld_have_user_permission('permissions_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
@@ -93,6 +105,8 @@ class RolePermissionsController extends Controller
         if(RolePermission::whereNotIn('id', [$request->id])->where('name', $request->name)->first() == null){
             $permission =  RolePermission::findOrFail($request->id);
             $permission->name = $request->name;
+            $permission->keys = $request->keys;
+            $permission->parent_id = $request->parent_id;
             $permission->created_at = $request->date;
             
             if($permission->save()){
@@ -106,6 +120,10 @@ class RolePermissionsController extends Controller
 
     }
     public function destory(Request $request){
+        if(dsld_have_user_permission('permissions_delete') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+
         $permission = RolePermission::findOrFail($request->id);
         if($permission != ''){
             if($permission->delete()){
@@ -120,6 +138,11 @@ class RolePermissionsController extends Controller
     }
     
     public function status(Request $request){
+
+        if(dsld_have_user_permission('permissions_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+
         $permission = RolePermission::findOrFail($request->id);
         if($permission != ''){
             if($permission->status != $request->status){

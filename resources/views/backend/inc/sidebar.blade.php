@@ -75,7 +75,7 @@
                     @endif
                     
                     @if(dsld_have_user_permission('timelines'))
-                    <li class="{{ dsld_is_route_active(['history.timeline.index']) }}"><a href="{{ route('history.timeline.index') }}">History Timelines</a></li>
+                    <li class="{{ dsld_is_route_active(['history.timeline.index']) }}"><a href="{{ route('history.timeline.index') }}">All Timelines</a></li>
                     @endif
                 </ul>
             </li> 
@@ -99,7 +99,7 @@
             @endif
             
             @if(dsld_have_user_permission('contact-forms'))  
-            <li class="{{ dsld_is_route_active(['contact_form.index', 'contact_form_fields.edit', 'contact_form_fields.update'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Contact Forms</span></a>
+            <li class="{{ dsld_is_route_active(['contact_form.index', 'contact_form_fields.edit', 'contact_form_fields.update'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Forms</span></a>
                 <ul class="ml-menu">
                     <li class="{{ dsld_is_route_active(['contact_form.index', 'contact_form_fields.edit', 'contact_form_fields.update']) }}"><a href="{{ route('contact_form.index') }}">All Forms</a></li>
                  </ul>

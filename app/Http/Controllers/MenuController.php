@@ -8,6 +8,10 @@ use Validator;
 class MenuController extends Controller
 {
     public function index(){
+        if(dsld_have_user_permission('menus') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+
         $page['title'] = 'Show all menus';
         return view('backend.modules.menus.show', compact('page'));
     }
@@ -44,7 +48,9 @@ class MenuController extends Controller
         return view('backend.modules.menus.ajax_menus', compact('data'));
     }
     public function store(Request $request){
-
+        if(dsld_have_user_permission('menus_add') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
         ]);
@@ -73,20 +79,26 @@ class MenuController extends Controller
         }
     }
     public function edit($id){
+        if(dsld_have_user_permission('menus_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $data = Menu::where('id', $id)->first();
         $page['title'] = 'Edit Data';
         return view('backend.modules.menus.edit', compact('data', 'page'));
     }
     public function menus_ordering($type){
+        if(dsld_have_user_permission('menus_edit') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
         $data = Menu::where('type', $type)->where('status', 0)->orderBy('order', 'desc')->get();
         $page['title'] = 'Edit Type';
         return view('backend.modules.menus.ordering', compact('data', 'page', 'type'));
     }
     public function menus_ordering_update(Request $request){
-
-
+        if(dsld_have_user_permission('menus_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         
-  
         $get_menu = array();
         foreach(json_decode($request->menu_ordering_value, true) as $key => $level1){
 
@@ -147,7 +159,10 @@ class MenuController extends Controller
 
     }
     public function update(Request $request){
-
+        if(dsld_have_user_permission('menus_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+        
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:50',
             'url' => 'required|string|max:50',
@@ -189,6 +204,9 @@ class MenuController extends Controller
         } 
     }
     public function destory(Request $request){
+        if(dsld_have_user_permission('menus_delete') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
         $menu = Menu::findOrFail($request->id);
         if($menu != ''){
             if($menu->delete()){
@@ -203,6 +221,10 @@ class MenuController extends Controller
     }
 
     public function status(Request $request){
+        if(dsld_have_user_permission('menus_edit') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+        
         $menu = Menu::findOrFail($request->id);
         if($menu != ''){
             if($menu->status != $request->status){

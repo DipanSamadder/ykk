@@ -16,23 +16,14 @@
         <div class="card">
             <div class="header">
                 <h2><strong>All</strong> Users </h2>
-                <!-- <ul class="header-dropdown">
-                    <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                        <ul class="dropdown-menu dropdown-menu-right slideUp">
-                            <li><a href="javascript:void(0);">Action</a></li>
-                            <li><a href="javascript:void(0);">Another action</a></li>
-                            <li><a href="javascript:void(0);">Something else</a></li>
-                        </ul>
-                    </li>
-                    <li class="remove">
-                        <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
-                    </li>
-                </ul> -->
+
             </div>
             <div class="body">
                 <div class="row">
                 <div class="col-lg-6">
-                    <button class="btn btn-success btn-round mb-4" title="Add New" onclick="add_new_lg_modal_form()"><i class="zmdi zmdi-hc-fw"></i> Add New</button>
+                    @if(dsld_have_user_permission('users_add') == 1)
+                        <button class="btn btn-success btn-round mb-4" title="Add New" onclick="add_new_lg_modal_form()"><i class="zmdi zmdi-hc-fw"></i> Add New</button>
+                    @endif
                     <button class="btn btn-info btn-round mb-4" onclick="get_pages();"><i class="zmdi zmdi-hc-fw"></i> Reload</button>
                 </div>
                 <div class="col-lg-6">

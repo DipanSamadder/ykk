@@ -7,8 +7,13 @@
                 <th>Area Name</th>
                 <th>Details</th>
                 <th>Date</th>
+                @if(dsld_have_user_permission('office_edit') == 1)
                 <th>Status</th>
+                @endif
+
+                @if(dsld_have_user_permission('office_delete') == 1 || dsld_have_user_permission('office_edit') == 1))
                 <th>Action</th>
+                @endif
             </tr>
         </thead>
         <tfoot>
@@ -18,8 +23,13 @@
                 <th>Area Name</th>
                 <th>Details</th>
                 <th>Date</th>
+                @if(dsld_have_user_permission('office_edit') == 1)
                 <th>Status</th>
+                @endif
+
+                @if(dsld_have_user_permission('office_delete') == 1 || dsld_have_user_permission('office_edit') == 1))
                 <th>Action</th>
+                @endif
             </tr>
         </tfoot>
     <tbody>
@@ -41,6 +51,8 @@
                        <small><b>Address:</b> {{ $value->content }}{{ $details->email }} <br><b>Phone:</b> {{ $details->phone }} <br><b>email:</b> {{ $details->email }}</small>
                     </td>
                     <td><small>U: {{ date('h:i:s d M, Y', strtotime($value->updated_at)) }}<br>C: {{ date('h:i:s d M, Y', strtotime($value->created_at)) }}</small></td>
+
+                    @if(dsld_have_user_permission('office_edit') == 1)
                     <td>
 
                     <div class="custom-control custom-switch">
@@ -49,15 +61,23 @@
                     </div>
 
                     </td>
+                    @endif
+
+                    @if(dsld_have_user_permission('office_delete') == 1 || dsld_have_user_permission('office_edit') == 1))
                     <td>
+                            @if(dsld_have_user_permission('office_edit') == 1)
                             <a href="javascript:void(0)"  onclick="edit_lg_modal_form({{ $value->id }});" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
                                 <i class="zmdi zmdi-edit"></i>
                             </a>
+                            @endif
+                            @if(dsld_have_user_permission('office_delete') == 1)
                             <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-danger" onclick="DSLDDeleteAlert('{{ $value->id }}','{{ route('pages.destory') }}','{{ csrf_token() }}')">
                                     <i class="zmdi zmdi-delete"></i>
                             </a>
+                            @endif
                         </p>
                     </td>
+                    @endif
                 </tr>
             @endforeach
         @else

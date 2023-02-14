@@ -260,7 +260,7 @@ class PagesController extends Controller
  
      }
     public function destory(Request $request){
-        if(dsld_have_user_permission('pages_delete') == 0){
+        if(dsld_have_user_permission('pages_delete') == 0 || dsld_have_user_permission('office_delete') == 0 ||dsld_have_user_permission('timelines_delete') == 0 ){
             return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
         }
         $page = Page::findOrFail($request->id);
