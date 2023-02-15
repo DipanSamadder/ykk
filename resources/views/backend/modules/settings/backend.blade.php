@@ -42,7 +42,7 @@
                                             <input type="text" class="form-control" placeholder="Copyright" name="dashboard_copyright"  id="dashboard_copyright" value="{{ dsld_get_setting('dashboard_copyright') }}" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="form-group">
                                             <label class="form-label">Logo</label>
                                             <input type="hidden" name="types[]" id="types" value="dashboard_logo">
@@ -59,7 +59,41 @@
                                             @endif                                                            
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Fav Icon</label>
+                                            <input type="hidden" name="types[]" id="types" value="dashboard_fav_icon">
+                                            <select class="form-control show-tick ms select2" name="dashboard_fav_icon" id="dashboard_fav_icon">
+                                                <option value="">-- Please select --</option>
+                                                @foreach(App\Models\Upload::where('user_id', Auth::user()->id)->where('type', 'image')->get() as $key => $value)
+                                                    <option value="{{ $value->id }}" @if(dsld_get_setting('dashboard_fav_icon') == $value->id) selected @endif>({{ $value->id }}) - {{ $value->file_title}} </option>
+                                                @endforeach
+                                            </select>
+                                            @if(dsld_get_setting('dashboard_fav_icon') > 0)
+                                            <div class="image mt-2">
+                                                <img src="{{ dsld_uploaded_asset(dsld_get_setting('dashboard_fav_icon')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('dashboard_fav_icon')) }}" class="page_banner_icon">
+                                            </div> 
+                                            @endif                                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Loader Icon</label>
+                                            <input type="hidden" name="types[]" id="types" value="dashboard_loader_icon">
+                                            <select class="form-control show-tick ms select2" name="dashboard_loader_icon" id="dashboard_loader_icon">
+                                                <option value="">-- Please select --</option>
+                                                @foreach(App\Models\Upload::where('user_id', Auth::user()->id)->where('type', 'image')->get() as $key => $value)
+                                                    <option value="{{ $value->id }}" @if(dsld_get_setting('dashboard_loader_icon') == $value->id) selected @endif>({{ $value->id }}) - {{ $value->file_title}} </option>
+                                                @endforeach
+                                            </select>
+                                            @if(dsld_get_setting('dashboard_loader_icon') > 0)
+                                            <div class="image mt-2">
+                                                <img src="{{ dsld_uploaded_asset(dsld_get_setting('dashboard_loader_icon')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('dashboard_loader_icon')) }}" class="page_banner_icon">
+                                            </div> 
+                                            @endif                                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="form-group">
                                             <label class="form-label">Login Background</label>
                                             <input type="hidden" name="types[]" id="types" value="dashboard_login_background">
@@ -76,7 +110,7 @@
                                             @endif                                                            
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="form-group">
                                             <label class="form-label">Registration Background</label>
                                             <input type="hidden" name="types[]" id="types" value="dashboard_registration_background">
@@ -93,6 +127,24 @@
                                             @endif                                                            
                                         </div>
                                     </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Registration Background</label>
+                                            <input type="hidden" name="types[]" id="types" value="dashboard_registration_background">
+                                            <select class="form-control show-tick ms select2" name="dashboard_registration_background" id="dashboard_registration_background">
+                                                <option value="">-- Please select --</option>
+                                                @foreach(App\Models\Upload::where('user_id', Auth::user()->id)->where('type', 'image')->get() as $key => $value)
+                                                    <option value="{{ $value->id }}" @if(dsld_get_setting('dashboard_registration_background') == $value->id) selected @endif>({{ $value->id }}) - {{ $value->file_title}} </option>
+                                                @endforeach
+                                            </select>
+                                            @if(dsld_get_setting('dashboard_registration_background') > 0)
+                                            <div class="image mt-2">
+                                                <img src="{{ dsld_uploaded_asset(dsld_get_setting('dashboard_registration_background')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('dashboard_registration_background')) }}" class="page_banner_icon">
+                                            </div> 
+                                            @endif                                                            
+                                        </div>
+                                    </div>
+                                    
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <div class="swal-button-container">
                                             <button class="btn btn-raised btn-success btn-round waves-effect dsld-btn-loader" type="submit">Update</button>

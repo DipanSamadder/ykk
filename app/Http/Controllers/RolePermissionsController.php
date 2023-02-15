@@ -106,7 +106,7 @@ class RolePermissionsController extends Controller
             $permission =  RolePermission::findOrFail($request->id);
             $permission->name = $request->name;
             $permission->keys = $request->keys;
-            $permission->parent_id = $request->parent_id;
+            $permission->parent_id = $request->parent_id ? $request->parent_id : 0;
             $permission->created_at = $request->date;
             
             if($permission->save()){

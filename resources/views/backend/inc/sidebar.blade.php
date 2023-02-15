@@ -49,7 +49,7 @@
                     @endif
                     <div class="detail">
                         <h4>{{ Auth::user()->name }}</h4>
-                        <small>Super Admin</small>                        
+                        <small>{{ Auth::user()->id == 1 ? 'Super Admin' : Auth::user()->roles->name }}</small>                        
                     </div>
                 </div>
             </li>
@@ -98,10 +98,15 @@
             </li> 
             @endif
             
-            @if(dsld_have_user_permission('contact-forms'))  
-            <li class="{{ dsld_is_route_active(['contact_form.index', 'contact_form_fields.edit', 'contact_form_fields.update'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Forms</span></a>
+            @if(dsld_have_user_permission('contact-forms') == 1 || dsld_have_user_permission('contact-form-leads') == 1)  
+            <li class="{{ dsld_is_route_active(['contact_form.index', 'contact_form.leads'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Forms</span></a>
                 <ul class="ml-menu">
+                    @if(dsld_have_user_permission('contact-forms') == 1)
                     <li class="{{ dsld_is_route_active(['contact_form.index', 'contact_form_fields.edit', 'contact_form_fields.update']) }}"><a href="{{ route('contact_form.index') }}">All Forms</a></li>
+                    @endif
+                    @if(dsld_have_user_permission('contact-form-leads') == 1)
+                    <li class="{{ dsld_is_route_active(['contact_form.leads']) }}"><a href="{{ route('contact_form.leads') }}">All Leads</a></li>
+                    @endif
                  </ul>
             </li> 
             @endif

@@ -7,7 +7,8 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
+        <link rel="icon" type="image/png" href="{{ dsld_uploaded_asset(dsld_get_setting('dashboard_fav_icon')) }}" />
+
         <link rel="stylesheet" href="{{ dsld_static_asset('backend/assets/plugins/bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ dsld_static_asset('backend/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css') }}"/>
         <link rel="stylesheet" href="{{ dsld_static_asset('backend/assets/plugins/charts-c3/plugin.css') }}"/>
@@ -106,7 +107,7 @@
         <!-- Page Loader -->
         <div class="page-loader-wrapper">
             <div class="loader">
-                <div class="m-t-30"><img class="zmdi-hc-spin" src="{{ dsld_static_asset('backend/assets/images/loader.svg') }}" width="48" height="48" alt="Aero"></div>
+                <div class="m-t-30"><img class="zmdi-hc-spin" src="{{ dsld_uploaded_asset(dsld_get_setting('dashboard_loader_icon')) }}" width="48" height="48" alt="Aero"></div>
                 <p>Please wait...</p>
             </div>
         </div>
@@ -130,7 +131,10 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-7 col-md-6 col-sm-12">
-                            <h2>{{ $page['title'] }}</h2>
+                            
+                            @if(isset($page) && !empty($page['title']))
+                                <h2>{{ $page['title'] }}</h2>
+                            @endif
                             <button class="btn btn-primary btn-icon mobile_menu" type="button"><i class="zmdi zmdi-sort-amount-desc"></i></button>
                         </div>
                         <div class="col-lg-5 col-md-6 col-sm-12">                

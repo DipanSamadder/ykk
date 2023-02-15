@@ -23,37 +23,46 @@
             }
             
         @endphp
-        @if ($element->type == 'text' || $element->type == 'file' || $element->type == 'email' || $element->type == 'timepicker' || $element->type == 'country' || $element->type == 'city' || $element->type == 'state')
+        @if ($element->type == 'text' || $element->type == 'file' || $element->type == 'timepicker' || $element->type == 'country' || $element->type == 'city' || $element->type == 'state')
            
             <div class="{{ $col }}">
-                <input type="hidden" name="form_type[]" value="{{ $element->type }}">
+                <input type="hidden" name="form_type[]" value="{{ strtolower(dsld_generate_slug_by_text($element->label)) }}">
                 <div class="">
                     <label class="col-from-label">@if($label_setting =='show') {{ ucfirst(str_replace('_', ' ', $element->label)) }} @if($is_required =='required') <span style="color:red">*</span> @endif @else &nbsp; @endif </label>
                 </div>
                 <input class="form-control @if($class_name !='') {{ $class_name }} @endif" type="{{ $element->type }}" name="form_label[]" placeholder="{{ $element->label }} @if($is_required =='required') * @endif" onchange="is_edited()">
             </div>
-        @elseif ($element->type == 'datepicker')
+        @elseif ($element->type == 'email')
            
-           <div class="{{ $col }}">
-               <input type="hidden" name="form_type[]" value="{{ $element->type }}">
-               <div class="">
-                   <label class="col-from-label">@if($label_setting =='show') {{ ucfirst(str_replace('_', ' ', $element->label)) }} @if($is_required =='required') <span style="color:red">*</span> @endif @else &nbsp; @endif</label>
-               </div>
-                <input class="form-control @if($class_name !='') {{ $class_name }} @endif" type="date" name="form_label[]" placeholder="{{ $element->label }} @if($is_required =='required') * @endif" onchange="is_edited()">
-           </div>
+            <div class="{{ $col }}">
+                <input type="hidden" name="form_type[]" value="email">
+                <div class="">
+                    <label class="col-from-label">@if($label_setting =='show') {{ ucfirst(str_replace('_', ' ', $element->label)) }} @if($is_required =='required') <span style="color:red">*</span> @endif @else &nbsp; @endif </label>
+                </div>
+                <input class="form-control @if($class_name !='') {{ $class_name }} @endif" type="{{ $element->type }}" name="form_label[]" placeholder="{{ $element->label }} @if($is_required =='required') * @endif" onchange="is_edited()">
+            </div>
         @elseif ($element->type == 'phone')
            
            <div class="{{ $col }}">
-               <input type="hidden" name="form_type[]" value="{{ $element->type }}">
+               <input type="hidden" name="form_type[]" value="phone">
                <div class="">
                    <label class="col-from-label">@if($label_setting =='show') {{ ucfirst(str_replace('_', ' ', $element->label)) }} @if($is_required =='required') <span style="color:red">*</span> @endif @else &nbsp; @endif</label>
                </div>
                 <input class="form-control @if($class_name !='') {{ $class_name }} @endif" type="number" name="form_label[]" placeholder="{{ $element->label }} @if($is_required =='required') * @endif" onchange="is_edited()">
            </div>
+        @elseif ($element->type == 'datepicker')
+           
+           <div class="{{ $col }}">
+               <input type="hidden" name="form_type[]" value="{{ strtolower(dsld_generate_slug_by_text($element->label)) }}">
+               <div class="">
+                   <label class="col-from-label">@if($label_setting =='show') {{ ucfirst(str_replace('_', ' ', $element->label)) }} @if($is_required =='required') <span style="color:red">*</span> @endif @else &nbsp; @endif</label>
+               </div>
+                <input class="form-control @if($class_name !='') {{ $class_name }} @endif" type="date" name="form_label[]" placeholder="{{ $element->label }} @if($is_required =='required') * @endif" onchange="is_edited()">
+           </div>
         @elseif ($element->type == 'textarea')
            
            <div class="{{ $col }}">
-               <input type="hidden" name="form_type[]" value="{{ $element->type }}">
+               <input type="hidden" name="form_type[]" value="{{ strtolower(dsld_generate_slug_by_text($element->label)) }}">
                <div class="">
                    <label class="col-from-label">@if($label_setting =='show') {{ ucfirst(str_replace('_', ' ', $element->label)) }} @if($is_required =='required') <span style="color:red">*</span> @endif @else &nbsp; @endif</label>
                </div>
@@ -63,7 +72,7 @@
 
             
             <div class="{{ $col }}">
-                <input type="hidden" name="form_type[]" value="{{ $element->type }}">
+                <input type="hidden" name="form_type[]" value="{{ strtolower(dsld_generate_slug_by_text($element->label)) }}">
                 <div class="">
                     <label class="col-from-label">@if($label_setting =='show') {{ ucfirst(str_replace('_', ' ', $element->label)) }} @if($is_required =='required') <span style="color:red">*</span> @endif @else &nbsp; @endif</label>
                 </div>
@@ -79,7 +88,7 @@
         @elseif ($element->type == 'checkbox' || $element->type == 'radio') 
 
             <div class="{{ $col }}">
-                <input type="hidden" name="form_type[]" value="{{ $element->type }}">
+                <input type="hidden" name="form_type[]" value="{{ strtolower(dsld_generate_slug_by_text($element->label)) }}">
 
                 <div class="">
                     <label class="col-from-label">@if($label_setting =='show') {{ ucfirst(str_replace('_', ' ', $element->label)) }} @if($is_required =='required') <span style="color:red">*</span> @endif @else &nbsp; @endif</label>

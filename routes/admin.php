@@ -65,7 +65,9 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::post('contact-form-fields/update', [ContactFormController::class, 'edit_field_update'])->name('contact_form_fields.update');
     
     Route::post('contact-form/submit-data', [ContactFormController::class, 'ajax_submit_data'])->name('contact_form.submit_data');
-
+    Route::get('contact-form/leads', [ContactFormController::class, 'contact_form_leads'])->name('contact_form.leads');
+    Route::post('get-all-contact-form-leads', [ContactFormController::class, 'get_ajax_contact_forms_leads'])->name('ajax_contact_forms_leads');
+    Route::post('contact-form-leads/destory', [ContactFormController::class, 'leads_destory'])->name('contact_form_leads.destory');
 
     //Office Listing
     Route::get('offices', [OfficeController::class, 'index'])->name('office.index');

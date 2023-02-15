@@ -9,7 +9,6 @@ use App\Models\PageMeta;
 use App\Models\ContactForm;
 use Validator;
 
-
 class ContactFormController extends Controller
 {
     public function index(){
@@ -54,6 +53,39 @@ class ContactFormController extends Controller
         return view('backend.modules.contact_forms.ajax_forms', compact('data'));
     }
 
+    public function get_ajax_contact_forms_leads(Request $request){
+        if($request->page != 1){$start = $request->page * 15;}else{$start = 0;}
+        $forms_ids = $request->forms_ids;
+        $search = $request->search;
+        $sort = $request->sort;
+
+  
+        $data = ContactForm::where('meta_key', 'details');
+  
+        if($search != ''){
+            $data->where('meta_value', 'like', '%'.$search.'%');
+        }
+        if($forms_ids != 'all'){
+            $data->where('form_id', $forms_ids);
+        }
+
+        if($sort != ''){
+            switch ($request->sort) {
+                case 'newest':
+                    $data->orderBy('created_at', 'desc');
+                    break;
+                case 'oldest':
+                    $data->orderBy('created_at', 'asc');
+                    break;
+                default:
+                    $data->orderBy('created_at', 'desc');
+                    break;
+            }
+        }
+        $data = $data->skip($start)->paginate(15);
+        return view('backend.modules.contact_forms.ajax_leads', compact('data'));
+    }
+
     public function store(Request $request){
         if(dsld_have_user_permission('contact-forms_add') == 0){
             return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
@@ -82,6 +114,15 @@ class ContactFormController extends Controller
             return response()->json(['status' => 'error', 'message'=> 'Data insert failed.']);
         }
 
+    }
+
+    public function contact_form_leads(){
+        if(dsld_have_user_permission('contact-form-leads') == 0){
+            return redirect()->route('backend.admin')->with('error', 'You have no permission');
+        }
+        $page['title'] = 'Show all Leads';
+        $page['name'] = 'Lead';
+        return view('backend.modules.contact_forms.leads', compact('page'));
     }
 
     public function ajax_submit_data(Request $request){
@@ -137,25 +178,23 @@ class ContactFormController extends Controller
 
         $form_data = ContactForm::orderBy('id', 'desc')->first();
 
-        $form = new ContactForm;
-        $form->meta_key = 'created';
-        $form->meta_value = date('d-m-Y h:i:s A');
-        $form->form_id = $request->form_id;
-        $form->unit_id = (empty($form_data->unit_id)) ? 1 : $form_data->unit_id + 1;
-        $form->save();
-
+        $push = array();
         foreach($request->form_type as $key => $type){
-            $form = new ContactForm;
-            $form->meta_key = $type;
-            $form->meta_value = $request->form_label[$key];
-            $form->form_id =$request->form_id;
-            $form->unit_id = (empty($form_data->unit_id)) ? 1 : $form_data->unit_id + 1;
-            if(!$form->save()){
-                return response()->json(['status' => 'error', 'message' => 'Data deleted failed.']);
-            }
+            array_push($push, array($type => $request->form_label[$key]));
         }
+        array_push($push, array('created' => date('d-m-Y h:i:s A')));
 
-        return response()->json(['status' => 'success', 'message' => 'Data deleted successully.']);
+        $form = new ContactForm;
+        $form->meta_key = 'details';
+        $form->meta_value = json_encode($push);
+        $form->form_id =$request->form_id;
+        $form->unit_id = (empty($form_data->unit_id)) ? 1 : $form_data->unit_id + 1;
+
+        if($form->save()){
+            return response()->json(['status' => 'success', 'message' => 'Data insert successully.']);
+        }else{
+            return response()->json(['status' => 'error', 'message' => 'Data is not inserted']);
+        }
 
     }
     public function edit(Request $request){
@@ -284,6 +323,22 @@ class ContactFormController extends Controller
         $Page = Page::findOrFail($request->id);
         if($Page != ''){
             if($Page->delete()){
+                return response()->json(['status' => 'success', 'message' => 'Data deleted successully.']);
+            }else{
+                return response()->json(['status' => 'error', 'message' => 'Data deleted failed.']);
+            }
+        }else{
+            return response()->json(['status' => 'warning', 'message' => 'Data Not found.']);
+        }
+
+    }
+    public function leads_destory(Request $request){
+        if(dsld_have_user_permission('contact-form-leads_delete') == 0){
+            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
+        }
+        $ContactForm = ContactForm::findOrFail($request->id);
+        if($ContactForm != ''){
+            if($ContactForm->delete()){
                 return response()->json(['status' => 'success', 'message' => 'Data deleted successully.']);
             }else{
                 return response()->json(['status' => 'error', 'message' => 'Data deleted failed.']);
