@@ -68,6 +68,7 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     Route::get('contact-form/leads', [ContactFormController::class, 'contact_form_leads'])->name('contact_form.leads');
     Route::post('get-all-contact-form-leads', [ContactFormController::class, 'get_ajax_contact_forms_leads'])->name('ajax_contact_forms_leads');
     Route::post('contact-form-leads/destory', [ContactFormController::class, 'leads_destory'])->name('contact_form_leads.destory');
+    Route::get('contact-form/leads-export/{id}',[ContactFormController::class, 'exportCfLeads'])->name('cf-export-leads');
 
     //Office Listing
     Route::get('offices', [OfficeController::class, 'index'])->name('office.index');

@@ -26,15 +26,25 @@ if(isset($page) && !empty($page['name'])){
             </div>
             <div class="body">
                 <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-2">
                     <button class="btn btn-info btn-round mb-4" onclick="get_pages();"><i class="zmdi zmdi-hc-fw"></i> Reload</button>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-10">
                     <form class="form-inline" id="search_media">
                         <!-- <div class="form-group">                                
                             <input type="date" class="form-control ms  mr-2" name="get_date" onchange="filter()">
                         </div> -->
-                        <div class="col-lg-4 form-group">                                
+                        <div class="col-lg-3 form-group">                                
+                            <select class="form-control" name="export_form_id" onchange="export_data();">
+                                <option value="">Export</option>
+                                @if(App\Models\Page::where('type', 'contact_form')->get() != '')
+                                    @foreach(App\Models\Page::where('type', 'contact_form')->get() as $k => $val)
+                                        <option value="{{ route('cf-export-leads', [$val->id]) }}">{{ $val->title }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="col-lg-3 form-group">                                
                             <select class="form-control" name="forms_ids" onchange="filter()">
                                 <option value="all">All</option>
                                 @if(App\Models\Page::where('type', 'contact_form')->get() != '')
@@ -44,13 +54,13 @@ if(isset($page) && !empty($page['name'])){
                                 @endif
                             </select>
                         </div>
-                        <div class="col-lg-4 form-group">                                
+                        <div class="col-lg-3 form-group">                                
                             <select class="form-control" name="sort" onchange="filter()">
                                 <option value="newest">New to Old</option>
                                 <option value="oldest">Old to New</option>
                             </select>
                         </div>
-                        <div class="col-lg-4 form-group">                                    
+                        <div class="col-lg-3 form-group">                                    
                             <input type="text" class="form-control w-100" name="search" onblur="filter()" placeholder="Search..">
                         </div>
                     </form>
@@ -71,7 +81,10 @@ if(isset($page) && !empty($page['name'])){
 <input type="hidden" name="page_no" id="page_no" value="1">
 
 <script>
-  
+   function export_data(){   
+        var url = $('select[name=export_form_id]').val();
+        if(url != ''){window.open(url, '_blank'); }
+    }
    
     function get_pages(){
         var search = $('input[name=search]').val();
@@ -98,6 +111,7 @@ if(isset($page) && !empty($page['name'])){
         });
     }
 
+
     $(document).ready(function(){
         $('#page_no').val(1);
         get_pages();
@@ -107,6 +121,7 @@ if(isset($page) && !empty($page['name'])){
         $('#page_no').val(1);
         get_pages();
     }
+   
 
     $(document).ready(function(){
         $(document).on('click', '.pagination a',function(event)

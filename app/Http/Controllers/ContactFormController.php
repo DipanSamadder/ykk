@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExportCfLeads;
 use App\Models\Page;
 use App\Models\PageSection;
 use App\Models\PageMeta;
@@ -84,6 +86,18 @@ class ContactFormController extends Controller
         }
         $data = $data->skip($start)->paginate(15);
         return view('backend.modules.contact_forms.ajax_leads', compact('data'));
+    }
+
+
+    public function exportCfLeads($id){
+
+        $data = Page::where('id', $id)->first();
+        $form_id =  $data->id;
+        $file_name =  $data->title.'.xlsx';
+        if($data != ''){
+            return Excel::download(new ExportCfLeads($form_id), $file_name);
+        }
+        
     }
 
     public function store(Request $request){
