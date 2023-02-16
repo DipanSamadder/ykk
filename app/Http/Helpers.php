@@ -91,6 +91,19 @@ if(!function_exists('dsld_form_field_by_form_id')){
 }
 
 //Get Post Parent Category Nmae
+if(!function_exists('dsld_form_meta_value_get_by_form_id')){
+    function dsld_form_meta_value_get_by_form_id($meta_key = '', $form_id){
+        $data = PageMeta::where('meta_key', $meta_key)->where('page_id', $form_id)->first();
+        if( $data != ''){
+                return $data->meta_value;
+        }else{
+            return '';
+        }
+
+    }
+}
+
+//Get Post Parent Category Nmae
 if(!function_exists('dsld_page_meta_value_by_meta_key')){
     function dsld_page_meta_value_by_meta_key($meta_key = '', $page_id){
         $data = PageMeta::where('meta_key', $meta_key)->where('page_id', $page_id)->first();

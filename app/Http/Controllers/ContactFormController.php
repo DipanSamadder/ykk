@@ -205,7 +205,7 @@ class ContactFormController extends Controller
         $form->unit_id = (empty($form_data->unit_id)) ? 1 : $form_data->unit_id + 1;
 
         if($form->save()){
-            return response()->json(['status' => 'success', 'message' => 'Data insert successully.']);
+            return response()->json(['status' => 'success', 'message' => dsld_form_meta_value_get_by_form_id('success_msg', $request->form_id) ]);
         }else{
             return response()->json(['status' => 'error', 'message' => 'Data is not inserted']);
         }
