@@ -16,6 +16,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\ProductContorller;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ Route::get('/admin', [HomeController::class, 'admin_dashboard'])->middleware(['a
 Route::prefix('admin')->middleware(['auth', 'verified'])->group(function(){
     //Clear Cache
     Route::get('clear-cache', [HomeController::class, 'clear_cache'])->name('clear.cache');
+    Route::get('send-test-mail', [MailController::class, 'testmail'])->name('testmail');
  
     //Media library
     Route::get('media-library-admin', [UploadsMediaController::class, 'media_library_admin'])->name('media.library.admin');

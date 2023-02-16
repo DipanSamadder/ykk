@@ -6,6 +6,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ContactFormController;
+use App\Http\Controllers\MailController;
 
 
 /*
@@ -20,6 +21,8 @@ use App\Http\Controllers\ContactFormController;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('contact-form/submit-data', [ContactFormController::class, 'ajax_submit_data'])->name('contact_form.submit_data');
+
+
 Route::get('/p/{slug}', [PagesController::class, 'show_custom_page'])->name('custom-pages.show_custom_page');
 Route::get('/b/{slug}', [PostController::class, 'show_custom_blogs'])->name('blogs.show_blog');
 

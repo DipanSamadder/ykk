@@ -8,6 +8,7 @@ use App\Models\RolePermission;
 use App\Models\Page;
 use App\Models\PageMeta;
 use App\Models\PageSection;
+use  App\Http\Controllers\MailController;
 
 
 //Get Post Parent Category Nmae
@@ -102,6 +103,42 @@ if(!function_exists('dsld_form_meta_value_get_by_form_id')){
 
     }
 }
+
+
+//Get Post Parent Category Nmae
+if(!function_exists('dsld_mail_send_for_cf')){
+    function dsld_mail_send_for_cf($form_id, $email_user, $push){
+
+        $to = dsld_form_meta_value_get_by_form_id('send_mail', $form_id);
+            
+        $subject = dsld_form_meta_value_get_by_form_id('user_mail_subject', $form_id);
+        $user_template = dsld_form_meta_value_get_by_form_id('user_template', $form_id);
+        $admin_template = dsld_form_meta_value_get_by_form_id('admin_template', $form_id);
+        $from = dsld_form_meta_value_get_by_form_id('from_mail_id', $form_id);
+        $success_msg = dsld_form_meta_value_get_by_form_id('success_msg', $form_id);
+        $mail_body = dsld_form_meta_value_get_by_form_id('mail_body', $form_id);
+
+        if($from != 0 || $from != ""){
+            $from = env('MAIL_FROM_ADDRESS');
+        }
+        
+        if($user_template != '' && !empty($email_user)){
+            $content['title'] = $success_msg;
+            $content['body'] = $mail_body;
+            $cdata = new MailController;
+            $cdata->cf_submite_mail($email_user, $from, $subject, $content, $user_template);
+        }
+
+        if($admin_template != ''){
+            $cdata = new MailController;
+            $content['title'] = $success_msg." | Admin Mail";
+            $content['body'] = $push;
+            $cdata->cf_submite_mail($to, $from, $subject, $content, $admin_template);
+        }
+
+    }
+}
+
 
 //Get Post Parent Category Nmae
 if(!function_exists('dsld_page_meta_value_by_meta_key')){

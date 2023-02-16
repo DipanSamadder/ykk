@@ -144,7 +144,7 @@ class ContactFormController extends Controller
         $data = array();
         $i = 0;
         $if_valid = array();
-
+        $email_user = '';
 
         foreach (dsld_form_field_by_form_id($request->form_id) as $key => $element){
             $is_required = json_decode($element->setting)->is_required;
@@ -160,6 +160,7 @@ class ContactFormController extends Controller
                     }elseif($element->type =='email'){
                         if(dsld_is_valid_email($meta_value) == 1){
                             $is_empty = 1;
+                            $email_user = $meta_value;
                         }else{
                             return response()->json(['status' => 'error', 'message' => 'Enter your valid email.']);
                         }
@@ -205,6 +206,9 @@ class ContactFormController extends Controller
         $form->unit_id = (empty($form_data->unit_id)) ? 1 : $form_data->unit_id + 1;
 
         if($form->save()){
+
+            dsld_mail_send_for_cf($request->form_id, $email_user, json_encode($push));
+
             return response()->json(['status' => 'success', 'message' => dsld_form_meta_value_get_by_form_id('success_msg', $request->form_id) ]);
         }else{
             return response()->json(['status' => 'error', 'message' => 'Data is not inserted']);
